@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import AppContainer from 'react-hot-loader/lib/AppContainer';
 import App from 'components/App/App';
 
-function render( AApp ) { // eslint-disable-line no-shadow
+function render( App ) { // eslint-disable-line no-shadow
   const root = document.getElementById('root');
   ReactDOM.hydrate(
     <AppContainer>
-      <AApp />
+      <App />
     </AppContainer>,
     root,
   );
