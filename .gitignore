@@ -1,5 +1,6 @@
 node_modules
 coverage/
-build
+build/client
+build/server
 .DS_Store
 .env
