@@ -4,5 +4,6 @@ build/client
 build/server
 webpack/clientCache
 webpack/serverCache
+webpack/records.json
 .DS_Store
 .env

@@ -43,7 +43,7 @@ const commonConfig = webpackMerge([
       ],
     },
   },
-  parts.extractCSSChunks({
+  parts.extractSCSS({
     cssModules: true,
   }),
   parts.loadFonts({
@@ -81,7 +81,7 @@ const developmentConfig = webpackMerge([
         context: path.join(__dirname, '..'),
         filename: '[name].js',
         entry: {
-          vendor: [
+          vendorDll: [
             'react',
             'react-dom',
             // 'react-redux',
@@ -155,7 +155,8 @@ const productionConfig = webpackMerge([
       ),
     },
     {
-      name: 'manifest',
+      names: [ 'bootstrap' ], // needed to put webpack bootstrap code before chunks
+      filename: '[name].js',
       minChunks: Infinity,
     },
   ]),

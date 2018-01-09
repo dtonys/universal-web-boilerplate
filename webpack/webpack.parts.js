@@ -98,48 +98,42 @@ exports.serverRenderCSS = ({ include, exclude, cssModules } = {}) => ({
   module: {
     rules: [
       {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'css-loader/locals',
-          options: {
-            modules: true,
-            localIdentName: '[name]__[local]--[hash:base64:5]',
-          },
-        },
-      },
-    ],
-  },
-});
-
-exports.extractCSSChunks = ({ include, exclude, cssModules } = {}) => ({
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
+        test: /\.scss$/,
         include,
         exclude,
-        use: ExtractCssChunks.extract({
-          use: {
-            loader: 'css-loader',
+        use: [
+          {
+            loader: 'css-loader/locals',
             options: {
               modules: cssModules,
               localIdentName: '[name]__[local]--[hash:base64:5]',
             },
           },
-        }),
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => ([
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ]),
+            },
+          },
+          {
+            loader: 'fast-sass-loader',
+          },
+        ],
       },
     ],
   },
-  plugins: [
-    new ExtractCssChunks(),
-  ],
 });
 
-const extractCss = new ExtractTextPlugin({
-  filename: '[name].[chunkhash].css',
-  allChunks: false,
-});
 exports.extractSCSS = ({ include, exclude, cssModules } = {}) => ({
   module: {
     rules: [
@@ -147,13 +141,13 @@ exports.extractSCSS = ({ include, exclude, cssModules } = {}) => ({
         test: /\.scss$/,
         include,
         exclude,
-        use: extractCss.extract({
+        use: ExtractCssChunks.extract({
           use: [
             {
               loader: 'css-loader',
               options: {
                 modules: cssModules,
-                localIdentName: '[name]__[local]',
+                localIdentName: '[name]__[local]--[hash:base64:5]',
               },
             },
             {
@@ -176,13 +170,12 @@ exports.extractSCSS = ({ include, exclude, cssModules } = {}) => ({
               loader: 'fast-sass-loader',
             },
           ],
-          fallback: 'style-loader',
         }),
       },
     ],
   },
   plugins: [
-    extractCss,
+    new ExtractCssChunks(),
   ],
 });
 
