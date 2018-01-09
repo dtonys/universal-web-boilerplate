@@ -20,7 +20,6 @@ const parts = require('./webpack.parts');
 
 
 const PATHS = {
-  root: path.resolve(__dirname, '..'),
   src: path.resolve(__dirname, '..', 'src'),
   serverEntry: path.resolve(__dirname, '..', 'src', 'server', 'render.js'),
   serverBuild: path.resolve(__dirname, '..', 'build', 'server'),
@@ -30,6 +29,8 @@ const PATHS = {
 
 const commonConfig = webpackMerge([
   {
+    // 'server' name required by webpack-hot-server-middleware, see
+    // https://github.com/60frames/webpack-hot-server-middleware#usage
     name: 'server',
     target: 'node',
     entry: [
@@ -42,7 +43,7 @@ const commonConfig = webpackMerge([
         /\.(svg|png|jpg|jpeg|gif|ico|webm)$/,
         /\.(mp4|mp3|ogg|swf|webp)$/,
         /\.(css|scss|sass|less|styl)$/,
-        /\.bin|react-universal-component|require-universal-module|webpack-flush-chunks/
+        /\.bin|react-universal-component|require-universal-module|webpack-flush-chunks/,
       ],
     }),
     output: {
@@ -55,16 +56,20 @@ const commonConfig = webpackMerge([
         PATHS.node_modules,
         PATHS.src,
       ],
-      extensions: ['.js', '.css'],
     },
     plugins: [
       new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 1
+        maxChunks: 1,
       }),
     ],
   },
+  parts.loadJavascript({
+    include: PATHS.src,
+    cacheDirectory: PATHS.webpackCache,
+  }),
   parts.serverRenderCSS({
     cssModules: true,
+    exclude: /node_modules/,
   }),
 ]);
 
@@ -72,33 +77,29 @@ const developmentConfig = webpackMerge([
   {
     devtool: 'eval',
     output: {
-      publicPath: '/static/'
+      publicPath: '/static/',
     },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify('development')
-        }
-      })
+          NODE_ENV: JSON.stringify('development'),
+        },
+      }),
     ],
-  }
+  },
 ]);
 
 const productionConfig = webpackMerge([
   {
     devtool: 'source-map',
     plugins: [
-      new CleanWebpackPlugin(
-        [ PATHS.serverBuild, PATHS.webpackCache ],
-        { root: PATHS.root },
-      ),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify('production')
-        }
-      })
+          NODE_ENV: JSON.stringify('production'),
+        },
+      }),
     ],
-  }
+  },
 ]);
 
 

@@ -15,12 +15,10 @@ const webpackMerge = require('webpack-merge');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const AutoDllPlugin = require('autodll-webpack-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const parts = require('./webpack.parts');
 
 
 const PATHS = {
-  root: path.resolve(__dirname, '..'),
   src: path.resolve(__dirname, '..', 'src'),
   clientEntry: path.resolve(__dirname, '..', 'src', 'client.js'),
   clientBuild: path.resolve(__dirname, '..', 'build', 'client'),
@@ -30,18 +28,19 @@ const PATHS = {
 
 const commonConfig = webpackMerge([
   {
+    // 'client' name required by webpack-hot-server-middleware, see
+    // https://github.com/60frames/webpack-hot-server-middleware#usage
     name: 'client',
     target: 'web',
     output: {
       path: PATHS.clientBuild,
-      publicPath: '/static/'
+      publicPath: '/static/',
     },
     resolve: {
       modules: [
         PATHS.node_modules,
         PATHS.src,
       ],
-      extensions: ['.js', '.css'],
     },
   },
   parts.extractCSSChunks({
@@ -74,7 +73,7 @@ const developmentConfig = webpackMerge([
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify('development')
+          NODE_ENV: JSON.stringify('development'),
         },
       }),
       new webpack.NamedModulesPlugin(),
@@ -92,7 +91,7 @@ const developmentConfig = webpackMerge([
           ],
         },
       }),
-    ]
+    ],
   },
   parts.loadJavascript({
     include: PATHS.src,
@@ -100,7 +99,8 @@ const developmentConfig = webpackMerge([
   }),
   parts.extractBundles([
     {
-      name: 'manifest',
+      names: [ 'bootstrap' ], // needed to put webpack bootstrap code before chunks
+      filename: '[name].js',
       minChunks: Infinity,
     },
   ]),
@@ -120,15 +120,11 @@ const productionConfig = webpackMerge([
       chunkFilename: '[name].[chunkhash].js',
     },
     plugins: [
-      new CleanWebpackPlugin(
-        [ PATHS.clientBuild, PATHS.webpackCache ],
-        { root: PATHS.root },
-      ),
       new StatsPlugin('stats.json'),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify('production')
-        }
+          NODE_ENV: JSON.stringify('production'),
+        },
       }),
       new webpack.HashedModuleIdsPlugin(),
     ],

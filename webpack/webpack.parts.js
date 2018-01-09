@@ -103,37 +103,36 @@ exports.serverRenderCSS = ({ include, exclude, cssModules } = {}) => ({
         use: {
           loader: 'css-loader/locals',
           options: {
-            modules: cssModules,
-            localIdentName: '[name]__[local]--[hash:base64:5]'
-          }
-        }
-      }
-    ]
+            modules: true,
+            localIdentName: '[name]__[local]--[hash:base64:5]',
+          },
+        },
+      },
+    ],
   },
 });
 
-const extractCssChunksPlugin = new ExtractCssChunks({
-  filename: '[name].[contenthash].css'
-})
 exports.extractCSSChunks = ({ include, exclude, cssModules } = {}) => ({
   module: {
-    rules: {
-      test: /\.css$/,
-      include,
-      exclude,
-      use: ExtractCssChunks.extract({
-        use: {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            localIdentName: '[name]__[local]--[hash:base64:5]'
-          }
-        }
-      }),
-    }
+    rules: [
+      {
+        test: /\.css$/,
+        include,
+        exclude,
+        use: ExtractCssChunks.extract({
+          use: {
+            loader: 'css-loader',
+            options: {
+              modules: cssModules,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
+            },
+          },
+        }),
+      },
+    ],
   },
   plugins: [
-    extractCssChunksPlugin,
+    new ExtractCssChunks(),
   ],
 });
 

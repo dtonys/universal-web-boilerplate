@@ -14,4 +14,11 @@
     ],
     "babel-plugin-universal-import",
   ],
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    }
+  }
 }
