@@ -13,9 +13,9 @@ const pathToComponent = {
 };
 
 class App extends Component {
-  // static propTypes = {
-  //   path: PropTypes.string.isRequired,
-  // }
+  static propTypes = {
+    path: PropTypes.string.isRequired,
+  }
 
   render() {
     const { path } = this.props;
