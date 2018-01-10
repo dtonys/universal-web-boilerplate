@@ -1,4 +1,8 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import compression from 'compression';
+import morgan from 'morgan';
 
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -40,6 +44,22 @@ function setupWebackDevMiddleware(app) {
   });
 }
 
+async function serverSideRender( app ) {
+  const clientConfig = clientConfigFactory('development');
+  const publicPath = clientConfig.output.publicPath;
+  const outputPath = clientConfig.output.path;
+  if ( DEV ) {
+    await setupWebackDevMiddleware(app);
+  }
+  else {
+    const clientStats = require('../client/stats.json');
+    const serverRender = require('../server/main.js').default;
+
+    app.use(publicPath, express.static(outputPath));
+    app.use(serverRender({ clientStats, outputPath }));
+  }
+}
+
 function startServer( app ) {
   return new Promise((resolve, reject) => {
     app.listen(3010, (err) => {
@@ -54,26 +74,26 @@ function startServer( app ) {
 
 async function bootstrap() {
   const app = express();
+
+  // middleware
   app.use( express.static('public') );
-  // app.get('/', (req, res) => {
-  //   res.send('ok');
-  // });
-
-  const clientConfig = clientConfigFactory('development');
-  const publicPath = clientConfig.output.publicPath;
-  const outputPath = clientConfig.output.path;
+  app.all('/favicon.*', (req, res) => {
+    res.status(404).end();
+  });
   if ( DEV ) {
-    await setupWebackDevMiddleware(app);
-    await startServer(app);
+    app.use(morgan('dev'));
   }
-  else {
-    const clientStats = require('../client/stats.json');
-    const serverRender = require('../server/main.js').default;
+  app.use(helmet.noSniff());
+  app.use(helmet.ieNoOpen());
+  app.use(helmet.hidePoweredBy());
+  app.use(compression());
+  app.use(cookieParser());
 
-    app.use(publicPath, express.static(outputPath));
-    app.use(serverRender({ clientStats, outputPath }));
-    await startServer(app);
-  }
+  // TODO: Ensure cookie is accessible across domains.
+  // TODO: Proxy to API
+
+  await serverSideRender(app);
+  await startServer(app);
 }
 
 bootstrap()

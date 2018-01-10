@@ -153,7 +153,9 @@ module.exports = {
 
     // eslint-config-airbnb/rules/react-a11y.js
     "jsx-a11y/img-redundant-alt": "off",
+    "jsx-a11y/alt-text": "off",
     "jsx-a11y/anchor-has-content": "off",
+    "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/no-static-element-interactions": "off",
 
   },

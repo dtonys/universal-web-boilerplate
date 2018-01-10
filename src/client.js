@@ -1,3 +1,5 @@
+// NOTE: This is the entry point for the client render
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContainer from 'react-hot-loader/lib/AppContainer';
@@ -7,7 +9,7 @@ function render( App ) { // eslint-disable-line no-shadow
   const root = document.getElementById('root');
   ReactDOM.hydrate(
     <AppContainer>
-      <App />
+      <App path={window.location.pathname} />
     </AppContainer>,
     root,
   );

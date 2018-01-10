@@ -1,8 +1,10 @@
+// NOTE: This is the entry point for the server render
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import App from 'components/App/App';
+
 
 function createHtml({
   js,
@@ -21,6 +23,8 @@ function createHtml({
       <head>
         <meta charset="utf-8">
         <title> universal-web-boilerplate </title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="/css/materialize.min.css" />
         ${styles}
       </head>
       <body>
@@ -35,7 +39,17 @@ function createHtml({
 
 function createServerRenderMiddleware({ clientStats }) {
   return async (req, res, next) => {
-    const appString = ReactDOM.renderToString(<App />);
+    let appString = null;
+    try {
+      appString = ReactDOM.renderToString(<App path={req.path} />);
+    }
+    catch ( err ) {
+      console.log('ReactDOM.renderToString error'); // eslint-disable-line no-console
+      console.log(err); // eslint-disable-line no-console
+      next(err);
+      return;
+    }
+
     const chunkNames = flushChunkNames();
     const flushed = flushChunks(clientStats, { chunkNames });
     const { js, styles, cssHash } = flushed;
@@ -46,7 +60,7 @@ function createServerRenderMiddleware({ clientStats }) {
       cssHash,
       appString,
     });
-    return res.send(htmlString);
+    res.send(htmlString);
   };
 }
 
