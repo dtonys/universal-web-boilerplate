@@ -1,1 +1,13 @@
-PageLayout.scss
+.pageContent {
+  padding: 20px 10px 0 10px;
+  margin: auto;
+  margin-top: 56px;
+  max-width: 960px;
+  width: 100%;
+  @media (min-width: 0px) {
+    margin-top: 48px;
+  }
+  @media (min-width: 600px) {
+    margin-top: 64px;
+  }
+}

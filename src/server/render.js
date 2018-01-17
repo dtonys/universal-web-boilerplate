@@ -3,6 +3,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
+import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from 'material-ui/styles';
+import Reboot from 'material-ui/Reboot';
+import createTheme from 'helpers/createTheme';
+import JssProvider from 'react-jss/lib/JssProvider';
+import { SheetsRegistry } from 'react-jss/lib/jss';
 import App from 'components/App/App';
 
 
@@ -11,10 +16,11 @@ function createHtml({
   styles,
   cssHash,
   appString,
+  muiCss,
 }) {
 
   const dllScript = process.env.NODE_ENV !== 'production' ?
-    '<script type=\'text/javascript\' src=\'/static/vendorDll.js\'></script>' :
+    '<script type="text/javascript" src="/static/vendorDll.js"></script>' :
     '';
 
   return `
@@ -23,8 +29,9 @@ function createHtml({
       <head>
         <meta charset="utf-8">
         <title> universal-web-boilerplate </title>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="/css/materialize.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style id="jss-server-side">${muiCss}</style>
         ${styles}
       </head>
       <body>
@@ -37,11 +44,26 @@ function createHtml({
   `;
 }
 
+function renderApp( path, sheetsRegistry ) {
+  const generateClassName = createGenerateClassName();
+  const theme = createTheme();
+  const appRoot = (
+    <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+      <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+        <Reboot />
+        <App path={path} />
+      </MuiThemeProvider>
+    </JssProvider>
+  );
+  return appRoot;
+}
+
 function createServerRenderMiddleware({ clientStats }) {
   return async (req, res, next) => {
     let appString = null;
+    const sheetsRegistry = new SheetsRegistry();
     try {
-      appString = ReactDOM.renderToString(<App path={req.path} />);
+      appString = ReactDOM.renderToString(renderApp(req.path, sheetsRegistry));
     }
     catch ( err ) {
       console.log('ReactDOM.renderToString error'); // eslint-disable-line no-console
@@ -50,6 +72,7 @@ function createServerRenderMiddleware({ clientStats }) {
       return;
     }
 
+    const muiCss = sheetsRegistry.toString();
     const chunkNames = flushChunkNames();
     const flushed = flushChunks(clientStats, { chunkNames });
     const { js, styles, cssHash } = flushed;
@@ -59,6 +82,7 @@ function createServerRenderMiddleware({ clientStats }) {
       styles,
       cssHash,
       appString,
+      muiCss,
     });
     res.send(htmlString);
   };

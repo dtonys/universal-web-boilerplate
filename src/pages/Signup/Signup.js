@@ -1,14 +1,67 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from 'pages/Signup/Signup.scss';
+import PageLayout from 'components/PageLayout/PageLayout';
+import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 
 
-const SignupPage = () => {
-  return (
-    <div className={`${styles.SignupPage} grey lighten-3`} >
-      SignupPage
-    </div>
+class SignupPage extends Component {
 
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
+
+  handleChange = ( name ) => {
+    return ( event ) => {
+      this.setState({
+        [name]: event.target.value,
+      });
+    };
+  }
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <div className={`${styles.signupPage} grey lighten-3`} >
+        <PageLayout>
+          <div className={styles.formWrap}>
+            <form autoComplete="off">
+              <Typography type="headline" align="center" gutterBottom >
+                Sign up
+              </Typography>
+              <TextField
+                className={styles.textField}
+                label="email"
+                value={this.state.email}
+                onChange={this.handleChange('email')}
+                helperText=""
+                margin="normal"
+              />
+              <TextField
+                className={styles.textField}
+                label="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.handleChange('password')}
+                helperText=""
+                margin="normal"
+              />
+              <br /><br /><br />
+              <Button raised color="primary" fullWidth >
+                Submit
+              </Button>
+            </form>
+          </div>
+        </PageLayout>
+      </div>
+    );
+  }
+}
 
 export default SignupPage;

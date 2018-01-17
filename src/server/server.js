@@ -60,6 +60,32 @@ async function serverSideRender( app ) {
   }
 }
 
+function handleErrorMiddleware( err, req, res, next ) {
+  // NOTE: Add additional handling for errors here
+  console.log(err); // eslint-disable-line no-console
+  // Pass to express' default error handler, which will return
+  // `Internal Server Error` when `process.env.NODE_ENV === production` and
+  // a stack trace otherwise
+  next(err);
+}
+
+function handleUncaughtErrors() {
+  process.on('uncaughtException', ( error ) => {
+    // NOTE: Add additional handling for uncaught exceptions here
+    console.log('uncaughtException'); // eslint-disable-line no-console
+    console.log(error); // eslint-disable-line no-console
+    process.exit(1);
+  });
+  // NOTE: Treat promise rejections the same as an uncaught error,
+  // as both can be invoked by a JS error
+  process.on('unhandledRejection', ( error ) => {
+    // NOTE: Add handling for uncaught rejections here
+    console.log('unhandledRejection'); // eslint-disable-line no-console
+    console.log(error); // eslint-disable-line no-console
+    process.exit(1);
+  });
+}
+
 function startServer( app ) {
   return new Promise((resolve, reject) => {
     app.listen(3010, (err) => {
@@ -67,6 +93,7 @@ function startServer( app ) {
         console.log(err); // eslint-disable-line no-console
         reject(err);
       }
+      handleUncaughtErrors();
       console.log(`Server listening on port ${3010} !\n`); // eslint-disable-line no-console
     });
   });
@@ -88,6 +115,8 @@ async function bootstrap() {
   app.use(helmet.hidePoweredBy());
   app.use(compression());
   app.use(cookieParser());
+
+  app.use(handleErrorMiddleware);
 
   // TODO: Ensure cookie is accessible across domains.
   // TODO: Proxy to API

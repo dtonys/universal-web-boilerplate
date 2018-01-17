@@ -1,0 +1,20 @@
+.appBar {
+  // max-width: 1000px;
+}
+.toolBar {
+  margin: auto;
+  width: 100%;
+  max-width: 960px;
+  min-height: 60px;
+}
+
+.navbarWrapper {
+  padding: 0 10px;
+}
+
+.middleContent {
+  flex: 1;
+  a {
+    color: white;
+  }
+}

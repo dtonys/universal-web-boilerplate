@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import styles from 'components/App/App.scss';
 import HomePage from 'pages/Home/Home';
 import SignupPage from 'pages/Signup/Signup';
 import LoginPage from 'pages/Login/Login';
+import AllHtmlPage from 'pages/AllHtml/AllHtml';
 
 
 const pathToComponent = {
   '/': HomePage,
   '/signup': SignupPage,
   '/login': LoginPage,
+  '/html': AllHtmlPage,
 };
 
 class App extends Component {
@@ -17,14 +20,20 @@ class App extends Component {
     path: PropTypes.string.isRequired,
   }
 
+  componentDidMount() {
+    const jssStyles = document.getElementById('jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+
   render() {
     const { path } = this.props;
-    const Component = pathToComponent[path];
+    const RouteComponent = pathToComponent[path];
 
     return (
-      <div className={`${styles.app} container grey lighten-3`} >
-        App Component
-        <HomePage />
+      <div className={`${styles.app} container`} >
+        <RouteComponent />
       </div>
     );
   }
