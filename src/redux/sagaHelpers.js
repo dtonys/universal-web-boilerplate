@@ -11,7 +11,6 @@ export function delay( ms ) {
   );
 }
 
-// takeEvery, takeLatest
 export function takeOne( actionType, fn, ...args ) {
   return function* () { // eslint-disable-line func-names
     while (true) { // eslint-disable-line no-constant-condition

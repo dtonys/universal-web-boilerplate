@@ -6,6 +6,7 @@ import HomePage from 'pages/Home/Home';
 import SignupPage from 'pages/Signup/Signup';
 import LoginPage from 'pages/Login/Login';
 import AllHtmlPage from 'pages/AllHtml/AllHtml';
+import ReduxDemoPage from 'pages/ReduxDemo/ReduxDemo';
 
 
 const pathToComponent = {
@@ -13,6 +14,7 @@ const pathToComponent = {
   '/signup': SignupPage,
   '/login': LoginPage,
   '/html': AllHtmlPage,
+  '/redux-demo': ReduxDemoPage,
 };
 
 class App extends Component {

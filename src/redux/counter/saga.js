@@ -1,4 +1,4 @@
-import { put, call, take, fork, all } from 'redux-saga/effects';
+import { put, call, fork, all } from 'redux-saga/effects';
 import { delay, takeOne } from 'redux/sagaHelpers';
 import {
   INCREMENT_COUNTER,
@@ -28,7 +28,7 @@ function* loadData(action, context) {
     const posts = yield call(
       context.request,
       'https://jsonplaceholder.typicode.com/posts',
-      { query: { _limit: 10 } },
+      { query: { _limit: 5 } },
     );
     yield put({ type: LOAD_DATA_SUCCESS, payload: posts });
   }
