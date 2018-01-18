@@ -2,6 +2,9 @@
   text-decoration: none;
   // color: white;
 }
+:global(html) {
+  height: 100%;
+}
 
 .app {
   opacity: 1;

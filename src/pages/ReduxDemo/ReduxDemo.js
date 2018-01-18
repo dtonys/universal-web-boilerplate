@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from 'pages/ReduxDemo/ReduxDemo.scss';
-import PageLayout from 'components/PageLayout/PageLayout';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
@@ -116,36 +115,33 @@ class ReduxDemo extends Component {
     } = this.props;
 
     return (
-      <PageLayout>
-        <div className={ styles.wrap } >
-          <Typography type="display2" color="primary" gutterBottom >
-            Redux Demo Page
-          </Typography>
-          <Typography type="display1" color="primary" gutterBottom >
-            Click the buttons below to change the state
-          </Typography>
-          <br />
-          <Grid container>
-            <Grid item xs>
-              <CounterView
-                _inc={this._inc}
-                _dec={this._dec}
-                _incAsync={this._incAsync}
-                _decAsync={this._decAsync}
-                count={count}
-              />
-            </Grid>
-            <Grid item xs>
-              <LoadDataView
-                loadData={this.loadData}
-                posts={posts}
-                postsLoading={postsLoading}
-              />
-            </Grid>
+      <div className={ styles.wrap } >
+        <Typography type="display2" color="primary" gutterBottom >
+          Redux Demo Page
+        </Typography>
+        <Typography type="display1" color="primary" gutterBottom >
+          Click the buttons below to change the state
+        </Typography>
+        <br />
+        <Grid container>
+          <Grid item xs>
+            <CounterView
+              _inc={this._inc}
+              _dec={this._dec}
+              _incAsync={this._incAsync}
+              _decAsync={this._decAsync}
+              count={count}
+            />
           </Grid>
-
-        </div>
-      </PageLayout>
+          <Grid item xs>
+            <LoadDataView
+              loadData={this.loadData}
+              posts={posts}
+              postsLoading={postsLoading}
+            />
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }

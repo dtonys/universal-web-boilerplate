@@ -92,7 +92,7 @@ function createServerRenderMiddleware({ clientStats }) {
     store.dispatch({ type: INCREMENT_COUNTER });
     store.dispatch({ type: LOAD_DATA_REQUESTED });
 
-    // fire off the routing dispatches, including thunk
+    // fire off the routing dispatches, including routeThunk
     routeInitialDispatch();
 
     // check for immediate, synchronous redirect

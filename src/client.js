@@ -22,14 +22,14 @@ window.store = store;
 function render( App ) { // eslint-disable-line no-shadow
   const root = document.getElementById('root');
   ReactDOM.hydrate(
-    <AppContainer>
-      <MuiThemeProvider theme={theme}>
-        <Reboot />
+    <MuiThemeProvider theme={theme}>
+      <Reboot />
+      <AppContainer warnings={false}>
         <ReduxStoreProvider store={store} >
           <App />
         </ReduxStoreProvider>
-      </MuiThemeProvider>
-    </AppContainer>,
+      </AppContainer>
+    </MuiThemeProvider>,
     root,
   );
 }

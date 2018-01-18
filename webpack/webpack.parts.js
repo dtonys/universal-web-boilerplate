@@ -7,7 +7,6 @@
 const webpack = require('webpack');
 const cssnano = require('cssnano');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
