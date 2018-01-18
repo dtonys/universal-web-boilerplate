@@ -7,7 +7,7 @@ import universal from 'react-universal-component';
 import styles from 'components/App/App.scss';
 
 const options = {
-  minDelay: 500,
+  // minDelay: 500,
 };
 const HomePage = universal(import('pages/Home/Home'), options);
 const LoginPage = universal(import('pages/Login/Login'), options);

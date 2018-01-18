@@ -12,10 +12,10 @@
  *
  */
 
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const nodeExternals = require('webpack-node-externals');
 const parts = require('./webpack.parts');
 
 
@@ -26,6 +26,25 @@ const PATHS = {
   node_modules: path.resolve(__dirname, '..', 'node_modules'),
   webpackCache: path.resolve(__dirname, 'serverCache'),
 };
+
+// if you're specifying externals to leave unbundled, you need to tell Webpack
+// to still bundle `react-universal-component`, `webpack-flush-chunks` and
+// `require-universal-module` so that they know they are running
+// within Webpack and can properly make connections to client modules:
+const whitelist = [
+  '\\.bin',
+  'react-universal-component',
+  'require-universal-module',
+  'webpack-flush-chunks',
+];
+const whiteListRE = new RegExp(whitelist.join('|'));
+const externals = fs
+  .readdirSync(PATHS.node_modules)
+  .filter((x) => !whiteListRE.test(x))
+  .reduce((_externals, mod) => {
+    _externals[mod] = `commonjs ${mod}`;
+    return _externals;
+  }, {});
 
 const commonConfig = webpackMerge([
   {
@@ -38,15 +57,7 @@ const commonConfig = webpackMerge([
       'fetch-everywhere',
       PATHS.serverEntry,
     ],
-    externals: nodeExternals({
-      whitelist: [
-        /\.(eot|woff|woff2|ttf|otf)$/,
-        /\.(svg|png|jpg|jpeg|gif|ico|webm)$/,
-        /\.(mp4|mp3|ogg|swf|webp)$/,
-        /\.(css|scss|sass|less|styl)$/,
-        /\.bin|react-universal-component|require-universal-module|webpack-flush-chunks/,
-      ],
-    }),
+    externals,
     output: {
       path: PATHS.serverBuild,
       filename: '[name].js',

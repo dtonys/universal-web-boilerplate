@@ -83,7 +83,7 @@ const developmentConfig = webpackMerge([
         context: path.join(__dirname, '..'),
         filename: '[name].js',
         entry: {
-          vendorDll: [
+          vendor: [
             'react',
             'react-dom',
             // 'react-redux',
