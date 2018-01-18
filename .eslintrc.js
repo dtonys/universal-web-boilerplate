@@ -35,6 +35,7 @@ module.exports = {
 
     // eslint-config-airbnb-base/rules/errors.js
     'no-console': 'warn',
+    'prefer-promise-reject-errors': 'off',
 
     // eslint-config-airbnb-base/rules/node.js
     'global-require': 'off',
@@ -95,6 +96,7 @@ module.exports = {
     'space-in-parens': 'off',
     'spaced-comment': 'warn',
     'keyword-spacing': 'warn',
+    'function-paren-newline': ['error', 'consistent'],
 
     // eslint-config-airbnb-base/rules/variables.js
     'no-shadow': 'warn',
@@ -177,5 +179,9 @@ module.exports = {
         ],
       },
     },
+  },
+  "globals": {
+    "__CLIENT__": true,
+    "__SERVER__": true,
   },
 };

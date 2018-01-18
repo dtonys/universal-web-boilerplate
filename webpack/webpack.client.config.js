@@ -75,6 +75,8 @@ const developmentConfig = webpackMerge([
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
         },
+        __SERVER__: 'false',
+        __CLIENT__: 'true',
       }),
       new webpack.NamedModulesPlugin(),
       new AutoDllPlugin({
@@ -125,6 +127,8 @@ const productionConfig = webpackMerge([
         'process.env': {
           NODE_ENV: JSON.stringify('production'),
         },
+        __SERVER__: 'false',
+        __CLIENT__: 'true',
       }),
       new webpack.HashedModuleIdsPlugin(),
     ],

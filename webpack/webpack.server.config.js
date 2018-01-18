@@ -35,6 +35,7 @@ const commonConfig = webpackMerge([
     target: 'node',
     entry: [
       'babel-polyfill',
+      'fetch-everywhere',
       PATHS.serverEntry,
     ],
     externals: nodeExternals({
@@ -84,6 +85,8 @@ const developmentConfig = webpackMerge([
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
         },
+        __SERVER__: 'true',
+        __CLIENT__: 'false',
       }),
     ],
   },
@@ -97,6 +100,8 @@ const productionConfig = webpackMerge([
         'process.env': {
           NODE_ENV: JSON.stringify('production'),
         },
+        __SERVER__: 'true',
+        __CLIENT__: 'false',
       }),
     ],
   },

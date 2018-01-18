@@ -6,12 +6,14 @@ import App from 'components/App/App';
 import Reboot from 'material-ui/Reboot';
 import { MuiThemeProvider } from 'material-ui/styles';
 import createTheme from 'helpers/createTheme';
-import createStore from 'redux-modules/createStore';
+import createStore from 'redux/createStore';
 import { Provider as ReduxStoreProvider } from 'react-redux';
-
+import makeRequest from 'helpers/request';
 
 const theme = createTheme();
-const store = createStore({});
+const request = makeRequest();
+const [ store ] = createStore(window.__INITIAL_STATE__, request);
+window.request = request;
 window.store = store;
 
 function render( App ) { // eslint-disable-line no-shadow
