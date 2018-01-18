@@ -6,19 +6,22 @@ import universal from 'react-universal-component';
 
 import styles from 'components/App/App.scss';
 
-// const HomePage = universal(import('pages/Home/Home'));
-// const LoginPage = universal(import('pages/Login/Login'));
-// const SignupPage = universal(import('pages/Signup/Signup'));
-// const AllHtmlPage = universal(import('pages/AllHtml/AllHtml'));
-// const NotFoundPage = universal(import('pages/NotFound/NotFound'));
-// const ReduxDemoPage = universal(import('pages/ReduxDemo/ReduxDemo'));
+const options = {
+  minDelay: 500,
+};
+const HomePage = universal(import('pages/Home/Home'), options);
+const LoginPage = universal(import('pages/Login/Login'), options);
+const SignupPage = universal(import('pages/Signup/Signup'), options);
+const AllHtmlPage = universal(import('pages/AllHtml/AllHtml'), options);
+const NotFoundPage = universal(import('pages/NotFound/NotFound'), options);
+const ReduxDemoPage = universal(import('pages/ReduxDemo/ReduxDemo'), options);
 
-const HomePage = require('pages/Home/Home').default;
-const LoginPage = require('pages/Login/Login').default;
-const SignupPage = require('pages/Signup/Signup').default;
-const AllHtmlPage = require('pages/AllHtml/AllHtml').default;
-const NotFoundPage = require('pages/NotFound/NotFound').default;
-const ReduxDemoPage = require('pages/ReduxDemo/ReduxDemo').default;
+// const HomePage = require('pages/Home/Home').default;
+// const LoginPage = require('pages/Login/Login').default;
+// const SignupPage = require('pages/Signup/Signup').default;
+// const AllHtmlPage = require('pages/AllHtml/AllHtml').default;
+// const NotFoundPage = require('pages/NotFound/NotFound').default;
+// const ReduxDemoPage = require('pages/ReduxDemo/ReduxDemo').default;
 
 import {
   ROUTE_HOME,

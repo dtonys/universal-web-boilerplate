@@ -33,7 +33,7 @@ function createHtml({
 }) {
 
   const dllScript = process.env.NODE_ENV !== 'production' ?
-    '<script type="text/javascript" src="/static/vendorDll.js"></script>' :
+    '<script type="text/javascript" src="/static/vendor.js"></script>' :
     '';
 
   return `

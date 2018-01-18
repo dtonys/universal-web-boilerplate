@@ -8,15 +8,17 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
-import clientConfigFactory from '../../webpack/webpack.client.config';
-import serverConfigFactory from '../../webpack/webpack.server.config';
+// import clientConfigFactory from '../../webpack/webpack.client.config';
+// import serverConfigFactory from '../../webpack/webpack.server.config';
+import clientConfig from '../../webpack/client.dev.config';
+import serverConfig from '../../webpack/server.dev.config';
 
 
 const DEV = process.env.NODE_ENV !== 'production';
 
 function setupWebackDevMiddleware(app) {
-  const clientConfig = clientConfigFactory('development');
-  const serverConfig = serverConfigFactory('development');
+  // const clientConfig = clientConfigFactory('development');
+  // const serverConfig = serverConfigFactory('development');
   const multiCompiler = webpack([ clientConfig, serverConfig ]);
 
   // HACK: Fix for repeated recompiles in dev mode
@@ -45,7 +47,7 @@ function setupWebackDevMiddleware(app) {
 }
 
 async function serverSideRender( app ) {
-  const clientConfig = clientConfigFactory('development');
+  // const clientConfig = clientConfigFactory('development');
   const publicPath = clientConfig.output.publicPath;
   const outputPath = clientConfig.output.path;
   if ( DEV ) {
