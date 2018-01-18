@@ -10,7 +10,8 @@ import createTheme from 'helpers/createTheme';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 
-import createStore from 'redux/createStore';
+import configureStore from 'redux/configureStore';
+import createHistory from 'history/createMemoryHistory';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import { END as REDUX_SAGA_END } from 'redux-saga';
 import makeRequest from 'helpers/request';
@@ -65,7 +66,7 @@ function renderApp( path, sheetsRegistry, store ) {
       <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
         <Reboot />
         <ReduxStoreProvider store={store} >
-          <App path={path} />
+          <App />
         </ReduxStoreProvider>
       </MuiThemeProvider>
     </JssProvider>
@@ -78,16 +79,44 @@ function createServerRenderMiddleware({ clientStats }) {
     let appString = null;
     const sheetsRegistry = new SheetsRegistry();
     const request = makeRequest(req);
-    const [ store, rootTask ] = createStore({}, request);
+    const history = createHistory({ initialEntries: [ req.path ] });
+    const {
+      store,
+      rootSagaTask,
+      routeThunk,
+      routeInitialDispatch,
+    } = configureStore({}, request, history);
 
-    // dispatch events on server load
+    // load initial data - fetch user
     store.dispatch({ type: INCREMENT_COUNTER });
     store.dispatch({ type: INCREMENT_COUNTER });
     store.dispatch({ type: LOAD_DATA_REQUESTED });
 
+    // fire off the routing dispatches, including thunk
+    routeInitialDispatch();
+
+    // check for immediate, synchronous redirect
+    let location = store.getState().location;
+    if ( location.kind === 'redirect' ) {
+      res.redirect(302, location.pathname);
+      return;
+    }
+
+    // await on route thunk
+    if ( routeThunk ) {
+      await routeThunk(store);
+    }
+
+    // check for redirect triggered later
+    location = store.getState().location;
+    if ( location.kind === 'redirect' ) {
+      res.redirect(302, location.pathname);
+      return;
+    }
+
     // End sagas and wait until done
     store.dispatch(REDUX_SAGA_END);
-    await rootTask.done;
+    await rootSagaTask.done;
 
     try {
       const appInstance = renderApp(req.path, sheetsRegistry, store);

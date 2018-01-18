@@ -72,7 +72,7 @@ const LoadDataView = ({
       }
     </Paper>
   );
-}
+};
 
 @connect(
   (state) => ({
@@ -116,38 +116,36 @@ class ReduxDemo extends Component {
     } = this.props;
 
     return (
-      <div className={`${styles.reduxDemo} grey lighten-3`} >
-        <PageLayout>
-          <div className={ styles.wrap } >
-            <Typography type="display2" color="primary" gutterBottom >
-              Redux Demo Page
-            </Typography>
-            <Typography type="display1" color="primary" gutterBottom >
-              Click the buttons below to change the state
-            </Typography>
-            <br />
-            <Grid container>
-              <Grid item xs>
-                <CounterView
-                  _inc={this._inc}
-                  _dec={this._dec}
-                  _incAsync={this._incAsync}
-                  _decAsync={this._decAsync}
-                  count={count}
-                />
-              </Grid>
-              <Grid item xs>
-                <LoadDataView
-                  loadData={this.loadData}
-                  posts={posts}
-                  postsLoading={postsLoading}
-                />
-              </Grid>
+      <PageLayout>
+        <div className={ styles.wrap } >
+          <Typography type="display2" color="primary" gutterBottom >
+            Redux Demo Page
+          </Typography>
+          <Typography type="display1" color="primary" gutterBottom >
+            Click the buttons below to change the state
+          </Typography>
+          <br />
+          <Grid container>
+            <Grid item xs>
+              <CounterView
+                _inc={this._inc}
+                _dec={this._dec}
+                _incAsync={this._incAsync}
+                _decAsync={this._decAsync}
+                count={count}
+              />
             </Grid>
+            <Grid item xs>
+              <LoadDataView
+                loadData={this.loadData}
+                posts={posts}
+                postsLoading={postsLoading}
+              />
+            </Grid>
+          </Grid>
 
-          </div>
-        </PageLayout>
-      </div>
+        </div>
+      </PageLayout>
     );
   }
 }

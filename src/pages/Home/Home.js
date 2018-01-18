@@ -8,26 +8,24 @@ import Button from 'material-ui/Button';
 class HomePage extends Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className={`${styles.homePage} grey lighten-3`} >
-        <PageLayout>
-          <div className={ styles.wrap } >
-            <Typography type="display2" color="primary" gutterBottom >
-              Welcome to the home page
-            </Typography>
-            <Typography type="display1" color="primary" gutterBottom >
-              <a href="/signup" >
-                Sign up to get started
-              </a>
-            </Typography>
-            <br />
-            <a href="/redux-demo" >
-              <Button raised >
-                Redux Demo
-              </Button>
+      <PageLayout>
+        <div className={ styles.wrap } >
+          <Typography type="display2" color="primary" gutterBottom >
+            Welcome to the home page
+          </Typography>
+          <Typography type="display1" color="primary" gutterBottom >
+            <a href="/signup" >
+              Sign up to get started
             </a>
-          </div>
-        </PageLayout>
-      </div>
+          </Typography>
+          <br />
+          <a href="/redux-demo" >
+            <Button raised >
+              Redux Demo
+            </Button>
+          </a>
+        </div>
+      </PageLayout>
     );
   }
 }

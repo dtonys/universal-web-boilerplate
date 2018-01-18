@@ -6,13 +6,16 @@ import App from 'components/App/App';
 import Reboot from 'material-ui/Reboot';
 import { MuiThemeProvider } from 'material-ui/styles';
 import createTheme from 'helpers/createTheme';
-import createStore from 'redux/createStore';
+import configureStore from 'redux/configureStore';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import makeRequest from 'helpers/request';
+import createBrowserHistory from 'history/createBrowserHistory';
+
 
 const theme = createTheme();
 const request = makeRequest();
-const [ store ] = createStore(window.__INITIAL_STATE__, request);
+const history = createBrowserHistory();
+const { store } = configureStore(window.__INITIAL_STATE__, request, history);
 window.request = request;
 window.store = store;
 

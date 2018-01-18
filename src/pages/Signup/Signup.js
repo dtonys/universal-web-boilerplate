@@ -28,38 +28,36 @@ class SignupPage extends Component {
     const { count } = this.state;
 
     return (
-      <div className={`${styles.signupPage} grey lighten-3`} >
-        <PageLayout>
-          <div className={styles.formWrap}>
-            <form autoComplete="off">
-              <Typography type="headline" align="center" gutterBottom >
-                Sign up
-              </Typography>
-              <TextField
-                className={styles.textField}
-                label="email"
-                value={this.state.email}
-                onChange={this.handleChange('email')}
-                helperText=""
-                margin="normal"
-              />
-              <TextField
-                className={styles.textField}
-                label="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange('password')}
-                helperText=""
-                margin="normal"
-              />
-              <br /><br /><br />
-              <Button raised color="primary" fullWidth >
-                Submit
-              </Button>
-            </form>
-          </div>
-        </PageLayout>
-      </div>
+      <PageLayout>
+        <div className={styles.formWrap}>
+          <form autoComplete="off">
+            <Typography type="headline" align="center" gutterBottom >
+              Sign up
+            </Typography>
+            <TextField
+              className={styles.textField}
+              label="email"
+              value={this.state.email}
+              onChange={this.handleChange('email')}
+              helperText=""
+              margin="normal"
+            />
+            <TextField
+              className={styles.textField}
+              label="password"
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange('password')}
+              helperText=""
+              margin="normal"
+            />
+            <br /><br /><br />
+            <Button raised color="primary" fullWidth >
+              Submit
+            </Button>
+          </form>
+        </div>
+      </PageLayout>
     );
   }
 }
