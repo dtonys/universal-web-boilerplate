@@ -21,7 +21,7 @@ function createReduxLogger() {
       // when non-null, only prints if predicate(getState, action) is truthy
       predicate: null,
       // useful to trim parts of the state atom that are too verbose
-      stateTransformer: (state) => [],
+      stateTransformer: () => [],
       // useful to censor private messages (containing password, etc.)
       actionTransformer: (action) => {
         // truncate large arrays

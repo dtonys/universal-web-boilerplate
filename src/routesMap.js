@@ -1,4 +1,4 @@
-import { redirect, NOT_FOUND } from 'redux-first-router'
+import { redirect, NOT_FOUND } from 'redux-first-router';
 
 export const ROUTE_HOME = 'ROUTE_HOME';
 export const ROUTE_LOGIN = 'ROUTE_LOGIN';
@@ -29,5 +29,8 @@ export default ( request ) => {
       path: '/html',
       // thunk: async () => {}
     },
-  }
+    [NOT_FOUND]: {
+      path: '/not-found',
+    },
+  };
 };

@@ -58,7 +58,7 @@ function createHtml({
   `;
 }
 
-function renderApp( path, sheetsRegistry, store ) {
+function renderApp( sheetsRegistry, store ) {
   const generateClassName = createGenerateClassName();
   const theme = createTheme();
   const appRoot = (
@@ -119,7 +119,7 @@ function createServerRenderMiddleware({ clientStats }) {
     await rootSagaTask.done;
 
     try {
-      const appInstance = renderApp(req.path, sheetsRegistry, store);
+      const appInstance = renderApp(sheetsRegistry, store);
       appString = ReactDOM.renderToString( appInstance );
     }
     catch ( err ) {

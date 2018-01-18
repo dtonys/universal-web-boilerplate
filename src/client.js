@@ -26,7 +26,7 @@ function render( App ) { // eslint-disable-line no-shadow
       <MuiThemeProvider theme={theme}>
         <Reboot />
         <ReduxStoreProvider store={store} >
-          <App path={window.location.pathname} />
+          <App />
         </ReduxStoreProvider>
       </MuiThemeProvider>
     </AppContainer>,

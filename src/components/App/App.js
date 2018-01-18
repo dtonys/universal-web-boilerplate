@@ -1,26 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { NOT_FOUND } from 'redux-first-router';
+import universal from 'react-universal-component';
 
 import styles from 'components/App/App.scss';
-import HomePage from 'pages/Home/Home';
-import SignupPage from 'pages/Signup/Signup';
-import LoginPage from 'pages/Login/Login';
-import AllHtmlPage from 'pages/AllHtml/AllHtml';
-import ReduxDemoPage from 'pages/ReduxDemo/ReduxDemo';
-import NotFoundPage from 'pages/NotFound/NotFound';
-import { connect } from 'react-redux';
+
+// const HomePage = universal(import('pages/Home/Home'));
+// const LoginPage = universal(import('pages/Login/Login'));
+// const SignupPage = universal(import('pages/Signup/Signup'));
+// const AllHtmlPage = universal(import('pages/AllHtml/AllHtml'));
+// const NotFoundPage = universal(import('pages/NotFound/NotFound'));
+// const ReduxDemoPage = universal(import('pages/ReduxDemo/ReduxDemo'));
+
+const HomePage = require('pages/Home/Home').default;
+const LoginPage = require('pages/Login/Login').default;
+const SignupPage = require('pages/Signup/Signup').default;
+const AllHtmlPage = require('pages/AllHtml/AllHtml').default;
+const NotFoundPage = require('pages/NotFound/NotFound').default;
+const ReduxDemoPage = require('pages/ReduxDemo/ReduxDemo').default;
+
+import {
+  ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_SIGNUP,
+  ROUTE_ALL_HTML,
+  ROUTE_REDUX_DEMO,
+} from 'routesMap';
 
 
-const pathToComponent = {
-  '/': HomePage,
-  '/signup': SignupPage,
-  '/login': LoginPage,
-  '/html': AllHtmlPage,
-  '/redux-demo': ReduxDemoPage,
-  '/not-found': NotFoundPage,
+const actionToComponent = {
+  [ROUTE_HOME]: HomePage,
+  [ROUTE_LOGIN]: LoginPage,
+  [ROUTE_SIGNUP]: SignupPage,
+  [ROUTE_ALL_HTML]: AllHtmlPage,
+  [ROUTE_REDUX_DEMO]: ReduxDemoPage,
+  [NOT_FOUND]: NotFoundPage,
 };
-const getComponent = ( path ) => {
-  let RouteComponent = pathToComponent[path];
+const getComponentFromAction = ( routeAction ) => {
+  let RouteComponent = actionToComponent[routeAction];
   if ( !RouteComponent ) {
     RouteComponent = NotFoundPage;
   }
@@ -29,12 +47,12 @@ const getComponent = ( path ) => {
 
 @connect(
   (state) => ({
-    path: state.location.pathname,
+    routeAction: state.location.type,
   }),
 )
 class App extends Component {
   static propTypes = {
-    path: PropTypes.string.isRequired,
+    routeAction: PropTypes.string.isRequired,
   }
 
   componentDidMount() {
@@ -46,8 +64,8 @@ class App extends Component {
   }
 
   render() {
-    const { path } = this.props;
-    const RouteComponent = getComponent(path);
+    const { routeAction } = this.props;
+    const RouteComponent = getComponentFromAction(routeAction);
 
     return (
       <div className={`${styles.app} container`} >
