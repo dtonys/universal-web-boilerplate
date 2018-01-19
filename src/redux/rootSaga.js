@@ -2,11 +2,13 @@ import {
   fork,
   all,
 } from 'redux-saga/effects';
-import counterSaga from 'redux/counter/saga';
+import demoSaga from 'redux/demo/saga';
+import userSaga from 'redux/user/saga';
 
 
 export default function* rootSaga(context) {
   yield all([
-    fork(counterSaga, context),
+    fork(demoSaga, context),
+    fork(userSaga, context),
   ]);
 }

@@ -4,6 +4,7 @@ import querystring from 'querystring';
 
 function getPath( req, url, query ) {
   const queryString = query ? ('?' + querystring.stringify(query)) : '';
+  // NOTE: Use full url if it starts with http
   if ( /http/.test(url) ) {
     return url + queryString;
   }

@@ -1,4 +1,5 @@
 // NOTE: This is the entry point for the server render
+import lodashGet from 'lodash/get';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { flushChunkNames } from 'react-universal-component/server';
@@ -15,10 +16,7 @@ import createHistory from 'history/createMemoryHistory';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import { END as REDUX_SAGA_END } from 'redux-saga';
 import makeRequest from 'helpers/request';
-import {
-  INCREMENT_COUNTER,
-  LOAD_DATA_REQUESTED,
-} from 'redux/counter/actions';
+import { LOAD_USER_SUCCESS } from 'redux/user/actions';
 
 import App from 'components/App/App';
 
@@ -88,9 +86,15 @@ function createServerRenderMiddleware({ clientStats }) {
     } = configureStore({}, request, history);
 
     // load initial data - fetch user
-    store.dispatch({ type: INCREMENT_COUNTER });
-    store.dispatch({ type: INCREMENT_COUNTER });
-    store.dispatch({ type: LOAD_DATA_REQUESTED });
+    try {
+      const userData = await request('/api/session');
+      const userPayload = lodashGet(userData, 'data.currentUser', null);
+      store.dispatch({ type: LOAD_USER_SUCCESS, payload: userPayload });
+    }
+    catch ( error ) {
+      next(error);
+      return;
+    }
 
     // fire off the routing dispatches, including routeThunk
     routeInitialDispatch();

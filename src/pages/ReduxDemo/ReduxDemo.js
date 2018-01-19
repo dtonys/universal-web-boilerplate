@@ -13,7 +13,7 @@ import {
   INCREMENT_COUNTER_ASYNC,
   DECREMENT_COUNTER_ASYNC,
   LOAD_DATA_REQUESTED,
-} from 'redux/counter/actions';
+} from 'redux/demo/actions';
 
 
 const CounterView = ({
@@ -74,10 +74,10 @@ const LoadDataView = ({
 };
 
 @connect(
-  (state) => ({
-    count: state.counter.count,
-    posts: state.counter.posts,
-    postsLoading: state.counter.postsLoading,
+  (globalState) => ({
+    count: globalState.demo.count,
+    posts: globalState.demo.posts,
+    postsLoading: globalState.demo.postsLoading,
   })
 )
 class ReduxDemo extends Component {

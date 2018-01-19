@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
-import countReducer, { STORE_KEY as COUNTER_STORE_KEY } from 'redux/counter/reducer';
+import demoReducer, { STORE_KEY as DEMO_STORE_KEY } from 'redux/demo/reducer';
+import userReducer, { STORE_KEY as USER_STORE_KEY } from 'redux/user/reducer';
 
 export default ( routeReducer ) => {
   return combineReducers({
-    [COUNTER_STORE_KEY]: countReducer,
+    [DEMO_STORE_KEY]: demoReducer,
+    [USER_STORE_KEY]: userReducer,
     location: routeReducer,
   });
 };

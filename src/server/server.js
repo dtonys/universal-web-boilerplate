@@ -10,6 +10,9 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
 import clientConfigFactory from '../../webpack/webpack.client.config';
 import serverConfigFactory from '../../webpack/webpack.server.config';
+import dotenv from 'dotenv';
+import path from 'path';
+import createProxy from './apiProxy';
 
 
 const DEV = process.env.NODE_ENV !== 'production';
@@ -100,6 +103,10 @@ function startServer( app ) {
 }
 
 async function bootstrap() {
+  dotenv.load({
+    path: path.resolve(__dirname, '../../.env'),
+  });
+
   const app = express();
 
   // middleware
@@ -118,8 +125,8 @@ async function bootstrap() {
 
   app.use(handleErrorMiddleware);
 
-  // TODO: Ensure cookie is accessible across domains.
-  // TODO: Proxy to API
+  // Proxy to API
+  app.all('/api/*', createProxy( process.env.API_URL ));
 
   await serverSideRender(app);
   await startServer(app);

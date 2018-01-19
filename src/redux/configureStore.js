@@ -56,7 +56,7 @@ export default (initialState = {}, request, history) => {
   } = connectRoutes(
     history,
     createRoutesMap(request),
-    { initialDispatch: __SERVER__ }, // Defer route initial dispatch until after saga is running
+    { initialDispatch: !__SERVER__ }, // Defer route initial dispatch until after saga is running
   );
   const sagaMiddleware = createSagaMiddleware();
   if ( process.env.NODE_ENV !== 'production' ) {
@@ -70,6 +70,15 @@ export default (initialState = {}, request, history) => {
   const rootReducer = createRootReducer( routeReducer );
   const store = createStore(rootReducer, initialState, enhancers);
   const rootSagaTask = sagaMiddleware.run(rootSaga, { request });
+
+  if ( module.hot ) {
+    module.hot.accept('redux/rootReducer', () => {
+      const _createRootReducer = require('redux/rootReducer').default;
+      const _rootReducer = _createRootReducer( routeReducer );
+      store.replaceReducer(_rootReducer);
+    });
+  }
+
   return {
     store,
     rootSagaTask,

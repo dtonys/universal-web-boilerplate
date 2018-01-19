@@ -9,7 +9,7 @@ import {
   LOAD_DATA_STARTED,
   LOAD_DATA_SUCCESS,
   LOAD_DATA_ERROR,
-} from 'redux/counter/actions';
+} from 'redux/demo/actions';
 
 
 function* incrementCounterAsync(/* ...args */) {
