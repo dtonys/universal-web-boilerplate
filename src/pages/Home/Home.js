@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import Link from 'redux-first-router-link';
-import { extractState as extractUserState } from 'redux/user/reducer';
+import { extractUserState } from 'redux/user/reducer';
 
 import styles from 'pages/Home/Home.scss';
 import Typography from 'material-ui/Typography';

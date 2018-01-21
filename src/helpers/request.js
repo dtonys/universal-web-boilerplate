@@ -22,7 +22,7 @@ const makeRequest = (req) => (url, options = {}) => {
     ...options,
   };
   if ( options.body && typeof options.body === 'object' ) {
-    options.body = JSON.stringify(options.body);
+    fetchOptions.body = JSON.stringify(options.body);
   }
   if ( req && lodashGet(req, 'headers.cookie') ) {
     fetchOptions.headers['cookie'] = req.headers.cookie;
@@ -46,7 +46,6 @@ const makeRequest = (req) => (url, options = {}) => {
       return body;
     })
     .catch((error) => {
-      console.log('Error: ', error);
       return Promise.reject(error);
     });
 };

@@ -1,38 +1,110 @@
 import {
   LOAD_USER_STARTED, LOAD_USER_SUCCESS, LOAD_USER_ERROR,
   LOGOUT_SUCCESS,
+  SIGNUP_STARTED, SIGNUP_SUCCESS, SIGNUP_ERROR,
+  LOGIN_STARTED, LOGIN_SUCCESS, LOGIN_ERROR,
 } from './actions';
 
 
 export const STORE_KEY = 'user';
-const initialState = {
-  user: null,
-  userLoading: false,
-  userLoadError: false,
-};
 
-export function extractState( globalState ) {
-  return globalState[STORE_KEY];
+export function extractSignupState( globalState ) {
+  return globalState[STORE_KEY].signup;
+}
+const signupInitialState = {
+  loading: false,
+  error: null,
+};
+function signupReducer( state = signupInitialState, action ) {
+  switch ( action.type ) {
+    case SIGNUP_STARTED: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case SIGNUP_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case SIGNUP_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
 }
 
-export default ( state = initialState, action ) => {
+export function extractLoginState( globalState ) {
+  return globalState[STORE_KEY].login;
+}
+const loginInitialState = {
+  loading: false,
+  error: null,
+};
+function loginReducer( state = loginInitialState, action ) {
+  switch ( action.type ) {
+    case LOGIN_STARTED: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case LOGIN_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case LOGIN_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+export function extractUserState( globalState ) {
+  return globalState[STORE_KEY].user;
+}
+const initialUserState = {
+  user: null,
+  loading: false,
+  error: null,
+};
+function userReducer( state = initialUserState, action ) {
   switch ( action.type ) {
     case LOAD_USER_STARTED: {
       return {
         ...state,
-        userLoading: true,
+        loading: true,
       };
     }
     case LOAD_USER_SUCCESS: {
       return {
         ...state,
         user: action.payload,
+        error: null,
       };
     }
     case LOAD_USER_ERROR: {
       return {
         ...state,
-        userLoadError: action.payload,
+        error: action.payload,
       };
     }
     case LOGOUT_SUCCESS: {
@@ -45,4 +117,17 @@ export default ( state = initialState, action ) => {
       return state;
     }
   }
+}
+
+const initialState = {
+  user: initialUserState,
+  signup: signupInitialState,
+  login: loginInitialState,
+};
+export default ( state = initialState, action ) => {
+  return {
+    user: userReducer( state.user, action ),
+    signup: signupReducer( state.signup, action ),
+    login: loginReducer( state.login, action ),
+  };
 };

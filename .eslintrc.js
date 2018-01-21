@@ -32,6 +32,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-useless-concat': 'off',
     'prefer-destructuring': 'off',
+    'no-restricted-globals': 'off',
 
     // eslint-config-airbnb-base/rules/errors.js
     'no-console': 'warn',

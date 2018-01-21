@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
 
-import { extractState as extractUserState } from 'redux/user/reducer';
+import { extractUserState } from 'redux/user/reducer';
 import {
   LOGOUT_REQUESTED,
 } from 'redux/user/actions';

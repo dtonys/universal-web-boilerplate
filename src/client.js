@@ -16,8 +16,11 @@ const theme = createTheme();
 const request = makeRequest();
 const history = createBrowserHistory();
 const { store } = configureStore(window.__INITIAL_STATE__, request, history);
-window.request = request;
-window.store = store;
+
+if ( process.env.NODE_ENV !== 'production' ) {
+  window.request = request;
+  window.store = store;
+}
 
 function render( App ) { // eslint-disable-line no-shadow
   const root = document.getElementById('root');
