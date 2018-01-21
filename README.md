@@ -1,1 +1,1 @@
-# universal-web-boilerplate
+# :milky_way: universal-web-boilerplate
