@@ -3,6 +3,7 @@ import {
   LOGOUT_SUCCESS,
   SIGNUP_STARTED, SIGNUP_SUCCESS, SIGNUP_ERROR,
   LOGIN_STARTED, LOGIN_SUCCESS, LOGIN_ERROR,
+  LOAD_USERS_STARTED, LOAD_USERS_SUCCESS, LOAD_USERS_ERROR,
 } from './actions';
 
 
@@ -111,6 +112,7 @@ function userReducer( state = initialUserState, action ) {
       return {
         ...state,
         user: null,
+        error: null,
       };
     }
     default: {
@@ -119,15 +121,54 @@ function userReducer( state = initialUserState, action ) {
   }
 }
 
+export function extractUsersState( globalState ) {
+  return globalState[STORE_KEY].users;
+}
+const usersInitialState = {
+  users: null,
+  loading: false,
+  error: null,
+};
+function usersReducer( state = usersInitialState, action ) {
+  switch ( action.type ) {
+    case LOAD_USERS_STARTED: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case LOAD_USERS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        users: action.payload,
+      };
+    }
+    case LOAD_USERS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+
 const initialState = {
   user: initialUserState,
   signup: signupInitialState,
   login: loginInitialState,
+  users: usersInitialState,
 };
 export default ( state = initialState, action ) => {
   return {
     user: userReducer( state.user, action ),
     signup: signupReducer( state.signup, action ),
     login: loginReducer( state.login, action ),
+    users: usersReducer( state.users, action ),
   };
 };

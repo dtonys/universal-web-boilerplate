@@ -1,7 +1,9 @@
 /**
  * Webpack setup based on survivejs book and demo repo
+ *
+ * survivejs
  * https://github.com/survivejs-demos/webpack-demo
- * https://survivejs.com/webpack/foreword/
+ *
  */
 
 const webpack = require('webpack');

@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import createRootReducer from 'redux/rootReducer';
 import rootSaga from 'redux/rootSaga';
 import { connectRoutes } from 'redux-first-router';
-import createRoutesMap from 'routesMap';
+import routesMap, { routeOptions } from 'redux/routesMap';
 
 
 function createReduxLogger() {
@@ -55,8 +55,8 @@ export default (initialState = {}, request, history) => {
     initialDispatch: routeInitialDispatch,
   } = connectRoutes(
     history,
-    createRoutesMap(request),
-    { initialDispatch: !__SERVER__ }, // Defer route initial dispatch until after saga is running
+    routesMap,
+    routeOptions,
   );
   const sagaMiddleware = createSagaMiddleware();
   if ( process.env.NODE_ENV !== 'production' ) {

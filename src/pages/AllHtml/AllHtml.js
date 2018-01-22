@@ -146,7 +146,7 @@ const AllHtmlPage = () => {
       <Chip label="Basic Chip 2" className={styles.chip} />
       <hr />
       <List>
-        {[ 0, 1, 2, 3 ].map(value => (
+        {[ 0, 1, 2, 3 ].map((value) => (
           <ListItem
             key={value}
             dense

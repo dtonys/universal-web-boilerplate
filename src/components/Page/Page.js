@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NOT_FOUND } from 'redux-first-router';
 import universal from 'react-universal-component';
-import { CircularProgress } from 'material-ui/Progress';
-
+import Loading from 'components/Loading/Loading';
 
 import {
   ROUTE_HOME,
@@ -12,18 +11,11 @@ import {
   ROUTE_SIGNUP,
   ROUTE_ALL_HTML,
   ROUTE_REDUX_DEMO,
-} from 'routesMap';
+  ROUTE_USERS,
+  ROUTE_ADMIN_USERS,
+} from 'redux/routesMap';
 
 
-const Loading = () => (
-  <CircularProgress style={{
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -20,
-    marginLeft: -20,
-  }} />
-);
 const options = {
   minDelay: 300,
   loading: Loading,
@@ -34,6 +26,7 @@ const SignupPage = universal(import('pages/Signup/Signup'), options);
 const AllHtmlPage = universal(import('pages/AllHtml/AllHtml'), options);
 const NotFoundPage = universal(import('pages/NotFound/NotFound'), options);
 const ReduxDemoPage = universal(import('pages/ReduxDemo/ReduxDemo'), options);
+const UsersListPage = universal(import('pages/UsersList/UsersList'), options);
 
 const actionToPage = {
   [ROUTE_HOME]: HomePage,
@@ -41,6 +34,8 @@ const actionToPage = {
   [ROUTE_SIGNUP]: SignupPage,
   [ROUTE_ALL_HTML]: AllHtmlPage,
   [ROUTE_REDUX_DEMO]: ReduxDemoPage,
+  [ROUTE_USERS]: UsersListPage,
+  [ROUTE_ADMIN_USERS]: UsersListPage,
   [NOT_FOUND]: NotFoundPage,
 };
 const getPageFromRoute = ( routeAction ) => {

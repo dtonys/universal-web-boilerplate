@@ -27,7 +27,7 @@ class HomePage extends Component { // eslint-disable-line react/prefer-stateless
     return (
       <div className={ styles.wrap } >
         <Typography type="display2" color="primary" gutterBottom >
-          Universal web boilerplate
+          ⚫ Universal web boilerplate
         </Typography>
         <Typography type="display1" color="primary" gutterBottom >
           { user &&

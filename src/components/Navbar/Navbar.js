@@ -47,11 +47,17 @@ class Navbar extends Component {
               color="inherit"
               className={styles.middleContent}
             >
-              <Link to="/" >
-                Auth App
+              <Link to="/"
+                style={{
+                  fontSize: '40px',
+                  position: 'relative',
+                  top: '5px',
+                }}
+              >
+                ⚪
               </Link>
             </Typography>
-            <Link to="/admin">
+            <Link to="/admin/users">
               <Button color="contrast">Admin</Button>
             </Link>
             <Link to="/users">

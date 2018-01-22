@@ -12,7 +12,7 @@ import clientConfigFactory from '../../webpack/webpack.client.config';
 import serverConfigFactory from '../../webpack/webpack.server.config';
 import dotenv from 'dotenv';
 import path from 'path';
-import createProxy from './apiProxy';
+import createProxy from 'server/apiProxy';
 
 
 const DEV = process.env.NODE_ENV !== 'production';
@@ -91,20 +91,27 @@ function handleUncaughtErrors() {
 
 function startServer( app ) {
   return new Promise((resolve, reject) => {
-    app.listen(3010, (err) => {
+    app.listen(process.env.SERVER_PORT, (err) => {
       if ( err ) {
         console.log(err); // eslint-disable-line no-console
         reject(err);
       }
       handleUncaughtErrors();
-      console.log(`Server listening on port ${3010} !\n`); // eslint-disable-line no-console
+      console.log(`Server listening on port ${process.env.SERVER_PORT} !\n`); // eslint-disable-line no-console
     });
   });
 }
 
 async function bootstrap() {
-  dotenv.load({
+  dotenv.config({
     path: path.resolve(__dirname, '../../.env'),
+  });
+  [ 'SERVER_PORT',
+    'API_URL',
+  ].forEach(( env ) => {
+    if ( !process.env[env] ) {
+      throw new Error(`${env} not set in .env file`);
+    }
   });
 
   const app = express();

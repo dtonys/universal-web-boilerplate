@@ -47,6 +47,14 @@ const CounterView = ({
     </Paper>
   );
 };
+CounterView.propTypes = {
+  _inc: PropTypes.func.isRequired,
+  _dec: PropTypes.func.isRequired,
+  _incAsync: PropTypes.func.isRequired,
+  _decAsync: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
+};
+
 
 const LoadDataView = ({
   loadData,
@@ -72,6 +80,11 @@ const LoadDataView = ({
     </Paper>
   );
 };
+LoadDataView.propTypes = {
+  loadData: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
+  postsLoading: PropTypes.bool.isRequired,
+};
 
 @connect(
   (globalState) => ({
@@ -84,6 +97,7 @@ class ReduxDemo extends Component {
   static propTypes = {
     count: PropTypes.number.isRequired,
     posts: PropTypes.array.isRequired,
+    postsLoading: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
   }
 

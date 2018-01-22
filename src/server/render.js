@@ -77,7 +77,7 @@ function createServerRenderMiddleware({ clientStats }) {
     let appString = null;
     const sheetsRegistry = new SheetsRegistry();
     const request = makeRequest(req);
-    const history = createHistory({ initialEntries: [ req.path ] });
+    const history = createHistory({ initialEntries: [ req.originalUrl ] });
     const {
       store,
       rootSagaTask,
@@ -102,7 +102,7 @@ function createServerRenderMiddleware({ clientStats }) {
     // check for immediate, synchronous redirect
     let location = store.getState().location;
     if ( location.kind === 'redirect' ) {
-      res.redirect(302, location.pathname);
+      res.redirect(302, location.pathname + ( location.search ? `?${location.search}` : '' ) );
       return;
     }
 
@@ -114,7 +114,7 @@ function createServerRenderMiddleware({ clientStats }) {
     // check for redirect triggered later
     location = store.getState().location;
     if ( location.kind === 'redirect' ) {
-      res.redirect(302, location.pathname);
+      res.redirect(302, location.pathname + ( location.search ? `?${location.search}` : '' ) );
       return;
     }
 
