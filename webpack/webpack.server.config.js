@@ -52,6 +52,7 @@ const commonConfig = webpackMerge([
     // https://github.com/60frames/webpack-hot-server-middleware#usage
     name: 'server',
     target: 'node',
+    bail: true,
     entry: [
       'babel-polyfill',
       'fetch-everywhere',
@@ -79,7 +80,7 @@ const commonConfig = webpackMerge([
     include: PATHS.src,
     cacheDirectory: PATHS.webpackCache,
   }),
-  parts.serverRenderCSS({
+  parts.serverRenderSCSS({
     cssModules: true,
     exclude: /node_modules/,
   }),
@@ -98,6 +99,7 @@ const developmentConfig = webpackMerge([
         },
         __SERVER__: 'true',
         __CLIENT__: 'false',
+        __TEST__: 'false',
       }),
     ],
   },
@@ -113,6 +115,7 @@ const productionConfig = webpackMerge([
         },
         __SERVER__: 'true',
         __CLIENT__: 'false',
+        __TEST__: 'false',
       }),
     ],
   },

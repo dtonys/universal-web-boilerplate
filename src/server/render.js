@@ -12,7 +12,7 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 
 import configureStore from 'redux/configureStore';
-import createHistory from 'history/createMemoryHistory';
+import createMemoryHistory from 'history/createMemoryHistory';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import { END as REDUX_SAGA_END } from 'redux-saga';
 import makeRequest from 'helpers/request';
@@ -77,7 +77,7 @@ function createServerRenderMiddleware({ clientStats }) {
     let appString = null;
     const sheetsRegistry = new SheetsRegistry();
     const request = makeRequest(req);
-    const history = createHistory({ initialEntries: [ req.originalUrl ] });
+    const history = createMemoryHistory({ initialEntries: [ req.originalUrl ] });
     const {
       store,
       rootSagaTask,

@@ -12,7 +12,7 @@ import routesMap, { routeOptions } from 'redux/routesMap';
 
 function createReduxLogger() {
   let logger = null;
-  if ( __SERVER__ ) {
+  if ( __SERVER__ || __TEST__ ) {
     const createLogger = require('redux-cli-logger').default;
     logger = createLogger({
       downArrow: '▼',
@@ -59,7 +59,9 @@ export default (initialState = {}, request, history) => {
     routeOptions,
   );
   const sagaMiddleware = createSagaMiddleware();
-  if ( process.env.NODE_ENV !== 'production' ) {
+  if (
+    process.env.NODE_ENV !== 'production' && !__TEST__
+  ) {
     const logger = createReduxLogger();
     middleware.push( logger );
   }

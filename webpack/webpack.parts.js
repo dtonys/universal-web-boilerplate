@@ -1,5 +1,5 @@
 /**
- * Webpack setup based on survivejs book and demo repo
+ * Webpack parts based on survivejs book and demo repo
  *
  * survivejs
  * https://github.com/survivejs-demos/webpack-demo
@@ -68,34 +68,7 @@ exports.minifyCSS = ({ options } = {}) => ({
   ],
 });
 
-exports.loadSCSS = ({ include, exclude, cssModules } = {}) => ({
-  module: {
-    rules: [
-      {
-        test: /\.scss$/,
-        include,
-        exclude,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: cssModules,
-              localIdentName: '[name]__[local]',
-            },
-          },
-          {
-            loader: 'fast-sass-loader',
-          },
-        ],
-      },
-    ],
-  },
-});
-
-exports.serverRenderCSS = ({ include, exclude, cssModules } = {}) => ({
+exports.serverRenderSCSS = ({ include, exclude, cssModules } = {}) => ({
   module: {
     rules: [
       {
@@ -180,7 +153,7 @@ exports.extractSCSS = ({ include, exclude, cssModules } = {}) => ({
   ],
 });
 
-exports.extractBundles = (bundles) => ({
+exports.commonsChunk = (bundles) => ({
   plugins: bundles.map((bundle) => (
     new webpack.optimize.CommonsChunkPlugin(bundle)
   )),
@@ -210,10 +183,6 @@ exports.attachRevision = () => ({
       banner: new GitRevisionPlugin().version(),
     }),
   ],
-});
-
-exports.generateSourceMaps = ({ type }) => ({
-  devtool: type,
 });
 
 exports.loadImages = ({ include, exclude, options } = {}) => ({

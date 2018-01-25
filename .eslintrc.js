@@ -5,6 +5,7 @@ module.exports = {
   'env': {
     'browser': true,
     'node': true,
+    'jest': true
   },
   'parser': 'babel-eslint',
   'rules': {
@@ -137,7 +138,7 @@ module.exports = {
     "react/forbid-prop-types": "off",
     "react/forbid-foreign-prop-types": "off",
     "react/no-unused-prop-types": "off",
-    "react/react-in-jsx-scope": "error",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [ "warn", { "extensions": [ ".js", ".jsx" ] } ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
@@ -185,5 +186,7 @@ module.exports = {
   "globals": {
     "__CLIENT__": true,
     "__SERVER__": true,
+    "__TEST__": true,
+    "__non_webpack_require__": false,
   },
 };

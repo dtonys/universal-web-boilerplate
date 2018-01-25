@@ -48,14 +48,24 @@ class SignupPage extends Component {
           onSubmit={ this.submitForm }
         >
           {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit} autoComplete="off">
+            <form
+              onSubmit={handleSubmit}
+              autoComplete="off"
+              data-test="signupForm"
+            >
               <Typography type="headline" align="center" gutterBottom >
                 Sign up
               </Typography>
               { error &&
                 <div>
                   <br />
-                  <Typography color="error" type="subheading" align="center" gutterBottom >
+                  <Typography
+                    color="error"
+                    type="subheading"
+                    align="center"
+                    gutterBottom
+                    data-test="serverError"
+                  >
                     {error}
                   </Typography>
                 </div>

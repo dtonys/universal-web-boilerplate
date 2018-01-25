@@ -1,8 +1,10 @@
+import 'fetch-everywhere';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
+
 
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -102,10 +104,12 @@ function startServer( app ) {
   });
 }
 
-async function bootstrap() {
+function loadEnv() {
   dotenv.config({
     path: path.resolve(__dirname, '../../.env'),
   });
+
+  // Check Env
   [ 'SERVER_PORT',
     'API_URL',
   ].forEach(( env ) => {
@@ -113,6 +117,22 @@ async function bootstrap() {
       throw new Error(`${env} not set in .env file`);
     }
   });
+}
+
+async function pingApi() {
+  // Ping API Server
+  const response = await fetch( process.env.API_URL );
+  if ( response && response.ok ) {
+    console.log(`Connected to API server at ${process.env.API_URL}`); // eslint-disable-line no-console
+  }
+  else {
+    throw new Error(`Cannot ping API server at ${process.env.API_URL}. Status: ${response.status}`);
+  }
+}
+
+async function bootstrap() {
+  loadEnv();
+  await pingApi();
 
   const app = express();
 

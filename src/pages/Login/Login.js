@@ -48,14 +48,24 @@ class LoginPage extends Component {
           onSubmit={ this.submitForm }
         >
           {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit} autoComplete="off">
+            <form
+              onSubmit={ handleSubmit }
+              autoComplete="off"
+              data-test="loginForm"
+            >
               <Typography type="headline" align="center" gutterBottom >
                 Login
               </Typography>
               { error &&
                 <div>
                   <br />
-                  <Typography color="error" type="subheading" align="center" gutterBottom >
+                  <Typography
+                    color="error"
+                    type="subheading"
+                    align="center"
+                    gutterBottom
+                    data-test="serverError"
+                  >
                     {error}
                   </Typography>
                 </div>
@@ -85,6 +95,8 @@ class LoginPage extends Component {
                 fullWidth
                 type="submit"
                 disabled={loading}
+                data-test="submit"
+                onClick={this.btnClick}
               >
                 { loading ? 'Submitting...' : 'Submit' }
               </Button>

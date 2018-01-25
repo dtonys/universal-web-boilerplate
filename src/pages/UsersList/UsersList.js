@@ -39,7 +39,7 @@ class UsersList extends Component {
             <Divider />
             <List>
               { users && users.map((user) => (
-                <div key={user.email} >
+                <div data-test="userListItem" key={user.email} >
                   <ListItem button>
                     <ListItemText primary={user.email} />
                     <ListItemText secondary={user.roles && user.roles.join(', ')} />

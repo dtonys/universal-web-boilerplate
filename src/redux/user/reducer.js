@@ -100,12 +100,14 @@ function userReducer( state = initialUserState, action ) {
         ...state,
         user: action.payload,
         error: null,
+        loading: false,
       };
     }
     case LOAD_USER_ERROR: {
       return {
         ...state,
         error: action.payload,
+        loading: false,
       };
     }
     case LOGOUT_SUCCESS: {

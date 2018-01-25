@@ -32,6 +32,7 @@ const commonConfig = webpackMerge([
     // https://github.com/60frames/webpack-hot-server-middleware#usage
     name: 'client',
     target: 'web',
+    bail: true,
     output: {
       path: PATHS.clientBuild,
       publicPath: '/static/',
@@ -77,6 +78,7 @@ const developmentConfig = webpackMerge([
         },
         __SERVER__: 'false',
         __CLIENT__: 'true',
+        __TEST__: 'false',
       }),
       new webpack.NamedModulesPlugin(),
       new AutoDllPlugin({
@@ -102,7 +104,7 @@ const developmentConfig = webpackMerge([
     include: PATHS.src,
     cacheDirectory: PATHS.webpackCache,
   }),
-  parts.extractBundles([
+  parts.commonsChunk([
     {
       names: [ 'bootstrap' ], // needed to put webpack bootstrap code before chunks
       filename: '[name].js',
@@ -132,6 +134,7 @@ const productionConfig = webpackMerge([
         },
         __SERVER__: 'false',
         __CLIENT__: 'true',
+        __TEST__: 'false',
       }),
       new webpack.HashedModuleIdsPlugin(),
     ],
@@ -152,7 +155,7 @@ const productionConfig = webpackMerge([
       },
     },
   }),
-  parts.extractBundles([
+  parts.commonsChunk([
     {
       name: 'vendor',
       minChunks: ({ resource }) => (
