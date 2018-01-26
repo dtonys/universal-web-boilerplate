@@ -9,6 +9,8 @@ export const ROUTE_SIGNUP = 'ROUTE_SIGNUP';
 export const ROUTE_REDUX_DEMO = 'ROUTE_REDUX_DEMO';
 export const ROUTE_ALL_HTML = 'ROUTE_ALL_HTML';
 export const ROUTE_USERS = 'ROUTE_USERS';
+export const ROUTE_USER_DETAIL = 'ROUTE_USER_DETAIL';
+export const ROUTE_USER_DETAIL_TAB = 'ROUTE_USER_DETAIL_TAB';
 export const ROUTE_ADMIN_USERS = 'ROUTE_ADMIN_USERS';
 
 import {
@@ -49,6 +51,24 @@ const routesMap = {
       dispatch({ type: LOAD_USERS_REQUESTED });
     },
   },
+  [ROUTE_USER_DETAIL]: {
+    path: '/users/:id',
+    loggedInOnly: true,
+    thunk: async (dispatch, getState) => {
+      if ( !getState().user.users.users ) {
+        dispatch({ type: LOAD_USERS_REQUESTED });
+      }
+    },
+  },
+  [ROUTE_USER_DETAIL_TAB]: {
+    path: '/users/:id/:tab',
+    loggedInOnly: true,
+    thunk: async (dispatch, getState) => {
+      if ( !getState().user.users.users ) {
+        dispatch({ type: LOAD_USERS_REQUESTED });
+      }
+    },
+  },
   [ROUTE_ADMIN_USERS]: {
     path: '/admin/users',
     requireRoles: [ 'admin' ],
@@ -77,12 +97,16 @@ export const routeOptions = {
       return;
     }
 
-    // redirect to login page if not logged in
     if ( requiresLogin && !user ) {
+      const nextAction = JSON.stringify({
+        type: action.type,
+        payload: action.payload,
+        query: action.meta.location.current.query,
+      });
       dispatch( redirect({
         type: ROUTE_LOGIN,
         payload: {
-          query: { next: action.type },
+          query: { next: nextAction },
         },
       }) );
       return;

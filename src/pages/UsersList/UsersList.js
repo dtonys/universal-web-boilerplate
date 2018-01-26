@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Link from 'redux-first-router-link';
 
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
@@ -40,10 +41,12 @@ class UsersList extends Component {
             <List>
               { users && users.map((user) => (
                 <div data-test="userListItem" key={user.email} >
-                  <ListItem button>
-                    <ListItemText primary={user.email} />
-                    <ListItemText secondary={user.roles && user.roles.join(', ')} />
-                  </ListItem>
+                  <Link to={`/users/${user._id}`}>
+                    <ListItem button>
+                      <ListItemText primary={user.email} />
+                      <ListItemText secondary={user.roles && user.roles.join(', ')} />
+                    </ListItem>
+                  </Link>
                   <Divider />
                 </div>
               ))}

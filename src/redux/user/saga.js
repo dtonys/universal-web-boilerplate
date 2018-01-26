@@ -45,8 +45,9 @@ function* login(action, context) {
     yield put({ type: LOGIN_SUCCESS });
     yield* loadUser(null, context);
     const globalState = yield select();
-    const nextAction = lodashGet(globalState, 'location.query.next') || ROUTE_HOME;
-    yield put( redirect({ type: nextAction }) );
+    const nextAction = lodashGet(globalState, 'location.query.next');
+    const nextActionParsed = nextAction ? JSON.parse(nextAction) : { type: ROUTE_HOME };
+    yield put( redirect( nextActionParsed ) );
   }
   catch ( httpError ) {
     const httpErrorMessage = lodashGet( httpError, 'error.message' );

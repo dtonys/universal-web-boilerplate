@@ -12,6 +12,8 @@ import {
   ROUTE_ALL_HTML,
   ROUTE_REDUX_DEMO,
   ROUTE_USERS,
+  ROUTE_USER_DETAIL,
+  ROUTE_USER_DETAIL_TAB,
   ROUTE_ADMIN_USERS,
 } from 'redux/routesMap';
 
@@ -27,6 +29,7 @@ const AllHtmlPage = universal(import('pages/AllHtml/AllHtml'), options);
 const NotFoundPage = universal(import('pages/NotFound/NotFound'), options);
 const ReduxDemoPage = universal(import('pages/ReduxDemo/ReduxDemo'), options);
 const UsersListPage = universal(import('pages/UsersList/UsersList'), options);
+const UserDetailPage = universal(import('pages/UserDetail/UserDetail'), options);
 
 const actionToPage = {
   [ROUTE_HOME]: HomePage,
@@ -35,6 +38,8 @@ const actionToPage = {
   [ROUTE_ALL_HTML]: AllHtmlPage,
   [ROUTE_REDUX_DEMO]: ReduxDemoPage,
   [ROUTE_USERS]: UsersListPage,
+  [ROUTE_USER_DETAIL]: UserDetailPage,
+  [ROUTE_USER_DETAIL_TAB]: UserDetailPage,
   [ROUTE_ADMIN_USERS]: UsersListPage,
   [NOT_FOUND]: NotFoundPage,
 };

@@ -123,8 +123,13 @@ function userReducer( state = initialUserState, action ) {
   }
 }
 
+
 export function extractUsersState( globalState ) {
   return globalState[STORE_KEY].users;
+}
+export function extractUserById( globalState, id ) {
+  const users = extractUsersState(globalState).users;
+  return users.filter((user) => user._id === id)[0];
 }
 const usersInitialState = {
   users: null,
