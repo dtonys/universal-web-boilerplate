@@ -1,4 +1,5 @@
 import 'fetch-everywhere';
+import colors from 'colors/safe';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -98,7 +99,9 @@ function startServer( app ) {
         reject(err);
       }
       handleUncaughtErrors();
-      console.log(`Server listening on port ${process.env.SERVER_PORT} !\n`); // eslint-disable-line no-console
+      console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
+      console.log(colors.black.bold(`⚫⚫ Web server listening on port ${process.env.SERVER_PORT}...`)); // eslint-disable-line no-console
+      console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
     });
   });
 }
@@ -122,7 +125,9 @@ async function pingApi() {
   // Ping API Server
   const response = await fetch( process.env.API_URL );
   if ( response && response.ok ) {
-    console.log(`Connected to API server at ${process.env.API_URL}`); // eslint-disable-line no-console
+    console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
+    console.log(colors.black.bold(`⚫⚫ Connected to API server at ${process.env.API_URL}`)); // eslint-disable-line no-console
+    console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
   }
   else {
     throw new Error(`Cannot ping API server at ${process.env.API_URL}. Status: ${response.status}`);
@@ -130,8 +135,17 @@ async function pingApi() {
 }
 
 async function bootstrap() {
-  loadEnv();
-  await pingApi();
+  let offlineMode = false;
+  try {
+    loadEnv();
+    await pingApi();
+  }
+  catch ( error ) {
+    console.log(colors.red.bold('🔴🔴')); // eslint-disable-line no-console
+    console.log(colors.red.bold('🔴🔴 API not configured, proceeding with offline mode')); // eslint-disable-line no-console
+    console.log(colors.red.bold('🔴🔴')); // eslint-disable-line no-console
+    offlineMode = true;
+  }
 
   const app = express();
 
@@ -151,6 +165,10 @@ async function bootstrap() {
 
   app.use(handleErrorMiddleware);
 
+  // Send dummy JSON response if offline
+  if ( offlineMode ) {
+    app.all('/api/*', (req, res) => res.send({}));
+  }
   // Proxy to API
   app.all('/api/*', createProxy( process.env.API_URL ));
 

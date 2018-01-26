@@ -7,7 +7,6 @@ export const ROUTE_HOME = 'ROUTE_HOME';
 export const ROUTE_LOGIN = 'ROUTE_LOGIN';
 export const ROUTE_SIGNUP = 'ROUTE_SIGNUP';
 export const ROUTE_REDUX_DEMO = 'ROUTE_REDUX_DEMO';
-export const ROUTE_ALL_HTML = 'ROUTE_ALL_HTML';
 export const ROUTE_USERS = 'ROUTE_USERS';
 export const ROUTE_USER_DETAIL = 'ROUTE_USER_DETAIL';
 export const ROUTE_USER_DETAIL_TAB = 'ROUTE_USER_DETAIL_TAB';
@@ -38,10 +37,6 @@ const routesMap = {
   },
   [ROUTE_REDUX_DEMO]: {
     path: '/redux-demo',
-    // thunk: async () => {}
-  },
-  [ROUTE_ALL_HTML]: {
-    path: '/html',
     // thunk: async () => {}
   },
   [ROUTE_USERS]: {

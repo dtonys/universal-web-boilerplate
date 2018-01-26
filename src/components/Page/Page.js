@@ -9,7 +9,6 @@ import {
   ROUTE_HOME,
   ROUTE_LOGIN,
   ROUTE_SIGNUP,
-  ROUTE_ALL_HTML,
   ROUTE_REDUX_DEMO,
   ROUTE_USERS,
   ROUTE_USER_DETAIL,
@@ -25,7 +24,6 @@ const options = {
 const HomePage = universal(import('pages/Home/Home'), options);
 const LoginPage = universal(import('pages/Login/Login'), options);
 const SignupPage = universal(import('pages/Signup/Signup'), options);
-const AllHtmlPage = universal(import('pages/AllHtml/AllHtml'), options);
 const NotFoundPage = universal(import('pages/NotFound/NotFound'), options);
 const ReduxDemoPage = universal(import('pages/ReduxDemo/ReduxDemo'), options);
 const UsersListPage = universal(import('pages/UsersList/UsersList'), options);
@@ -35,7 +33,6 @@ const actionToPage = {
   [ROUTE_HOME]: HomePage,
   [ROUTE_LOGIN]: LoginPage,
   [ROUTE_SIGNUP]: SignupPage,
-  [ROUTE_ALL_HTML]: AllHtmlPage,
   [ROUTE_REDUX_DEMO]: ReduxDemoPage,
   [ROUTE_USERS]: UsersListPage,
   [ROUTE_USER_DETAIL]: UserDetailPage,
