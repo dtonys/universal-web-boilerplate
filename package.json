@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm-run-all clean dev-server",
-    "dev-server": "cross-env NODE_ENV=development babel-watch src/server/server.js",
+    "dev-server": "cross-env NODE_ENV=development nodemon --delay 2 --watch src/server --exec babel-node src/server/server.js",
     "build": "npm-run-all clean build-client build-server build-node",
     "build-client": "cross-env NODE_ENV=production webpack --env production --progress -p --config webpack/webpack.client.config.js",
     "build-server": "cross-env NODE_ENV=production webpack --env production --progress -p --config webpack/webpack.server.config.js",

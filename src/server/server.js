@@ -5,7 +5,6 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 
-
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -49,7 +48,7 @@ function setupWebackDevMiddleware(app) {
   });
 }
 
-async function serverSideRender( app ) {
+async function setupWebpack( app ) {
   const clientConfig = clientConfigFactory('development');
   const publicPath = clientConfig.output.publicPath;
   const outputPath = clientConfig.output.path;
@@ -155,7 +154,7 @@ async function bootstrap() {
   // Proxy to API
   app.all('/api/*', createProxy( process.env.API_URL ));
 
-  await serverSideRender(app);
+  await setupWebpack(app);
   await startServer(app);
 }
 
