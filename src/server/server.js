@@ -154,9 +154,7 @@ async function bootstrap() {
   app.all('/favicon.*', (req, res) => {
     res.status(404).end();
   });
-  if ( DEV ) {
-    app.use(morgan('[:date[iso]] :method :url :status :response-time ms - :res[content-length]'));
-  }
+  app.use(morgan('[:date[iso]] :method :url :status :response-time ms - :res[content-length]'));
   app.use(helmet.noSniff());
   app.use(helmet.ieNoOpen());
   app.use(helmet.hidePoweredBy());
