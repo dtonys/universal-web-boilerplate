@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Link from 'redux-first-router-link';
 import {
   extractUserById,
   extractUsersState,
@@ -10,6 +9,7 @@ import { ROUTE_USER_DETAIL_TAB } from 'redux/routesMap';
 import Typography from 'material-ui/Typography';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
+import Loading from 'components/Loading/Loading';
 
 
 @connect(
@@ -23,10 +23,10 @@ class UserDetail extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     userDetail: PropTypes.object.isRequired,
-  }
-
-  constructor( props ) {
-    super(props);
+    users: PropTypes.array.isRequired,
+    tabValue: PropTypes.oneOf([
+      'id', 'email', 'roles', false,
+    ]).isRequired,
   }
 
   onTabChange = ( event, tabValue ) => {
@@ -34,7 +34,7 @@ class UserDetail extends Component {
       dispatch,
       userDetail,
     } = this.props;
-    this.props.dispatch({
+    dispatch({
       type: ROUTE_USER_DETAIL_TAB,
       payload: {
         id: userDetail._id,

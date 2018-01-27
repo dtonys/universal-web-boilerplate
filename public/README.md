@@ -1,0 +1,1 @@
+### Feel free to drop static assets here

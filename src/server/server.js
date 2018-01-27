@@ -101,7 +101,7 @@ function startServer( app ) {
       handleUncaughtErrors();
       console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
       console.log(colors.black.bold(`⚫⚫ Web server listening on port ${process.env.SERVER_PORT}...`)); // eslint-disable-line no-console
-      console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
+      console.log(colors.black.bold('⚫⚫\n')); // eslint-disable-line no-console
     });
   });
 }
@@ -127,7 +127,7 @@ async function pingApi() {
   if ( response && response.ok ) {
     console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
     console.log(colors.black.bold(`⚫⚫ Connected to API server at ${process.env.API_URL}`)); // eslint-disable-line no-console
-    console.log(colors.black.bold('⚫⚫')); // eslint-disable-line no-console
+    console.log(colors.black.bold('⚫⚫\n')); // eslint-disable-line no-console
   }
   else {
     throw new Error(`Cannot ping API server at ${process.env.API_URL}. Status: ${response.status}`);
@@ -143,7 +143,7 @@ async function bootstrap() {
   catch ( error ) {
     console.log(colors.red.bold('🔴🔴')); // eslint-disable-line no-console
     console.log(colors.red.bold('🔴🔴 API not configured, proceeding with offline mode')); // eslint-disable-line no-console
-    console.log(colors.red.bold('🔴🔴')); // eslint-disable-line no-console
+    console.log(colors.red.bold('🔴🔴\n')); // eslint-disable-line no-console
     offlineMode = true;
   }
 
