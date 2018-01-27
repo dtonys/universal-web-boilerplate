@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ~/webapps/node-api-boilerplate
+cd ~/webapps/universal-web-boilerplate
 git pull origin master
 yarn
 npm run build
