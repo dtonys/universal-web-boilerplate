@@ -12,7 +12,8 @@
     "build-client": "cross-env NODE_ENV=production webpack --env production --progress -p --config webpack/webpack.client.config.js",
     "build-server": "cross-env NODE_ENV=production webpack --env production --progress -p --config webpack/webpack.server.config.js",
     "build-node": "cross-env NODE_ENV=production babel src/server -d build/server",
-    "start": "cross-env NODE_ENV=production node build/server/server.js",
+    "start": "cross-env NODE_ENV=production forever start --uid universal-web --append build/server/server.js",
+    "stop": "forever stop universal-web",
     "clean": "rimraf build/client build/server",
     "test": "jest --config jest.config.js",
     "lint-js": "eslint -c .eslintrc.js ./src"
