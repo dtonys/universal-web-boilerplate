@@ -46,7 +46,6 @@ function createReduxLogger() {
 }
 
 export default (initialState = {}, request, history) => {
-  const middleware = [];
   const {
     reducer: routeReducer,
     middleware: routeMiddleware,
@@ -58,13 +57,15 @@ export default (initialState = {}, request, history) => {
     routesMap,
     routeOptions,
   );
-  const sagaMiddleware = createSagaMiddleware();
+
+  const middleware = [];
   if (
     process.env.NODE_ENV !== 'production' && !__TEST__
   ) {
     const logger = createReduxLogger();
     middleware.push( logger );
   }
+  const sagaMiddleware = createSagaMiddleware();
   middleware.push( sagaMiddleware );
   middleware.push( routeMiddleware );
   const appliedMiddleware = applyMiddleware(...middleware);
