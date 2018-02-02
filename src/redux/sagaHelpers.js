@@ -5,7 +5,7 @@ import {
 
 export function delay( ms ) {
   return () => (
-    new Promise((resolve /* ,reject */) => {
+    new Promise((resolve) => {
       setTimeout(resolve, ms);
     })
   );

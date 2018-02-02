@@ -111,14 +111,14 @@ function loadEnv() {
     path: path.resolve(__dirname, '../../.env'),
   });
 
-  // Check Env
-  [ 'SERVER_PORT',
-    'API_URL',
-  ].forEach(( env ) => {
-    if ( !process.env[env] ) {
-      throw new Error(`${env} not set in .env file`);
-    }
-  });
+  if ( !process.env.SERVER_PORT ) {
+    console.log('SERVER_PORT not set in .env file, defaulting to 3000'); // eslint-disable-line no-console
+    process.env.SERVER_PORT = 3000;
+  }
+
+  if ( !process.env.API_URL ) {
+    console.log('API_URL not set in .env file'); // eslint-disable-line no-console
+  }
 }
 
 async function pingApi() {
@@ -136,8 +136,9 @@ async function pingApi() {
 
 async function bootstrap() {
   let offlineMode = false;
+  loadEnv();
+
   try {
-    loadEnv();
     await pingApi();
   }
   catch ( error ) {

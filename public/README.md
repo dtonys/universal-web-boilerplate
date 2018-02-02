@@ -1,1 +1,1 @@
-### Feel free to drop static assets here
+### Static assets served here

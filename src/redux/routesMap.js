@@ -23,26 +23,22 @@ import {
 const routesMap = {
   [ROUTE_HOME]: {
     path: '/',
-    // thunk: async () => {}
   },
   [ROUTE_LOGIN]: {
     path: '/login',
     loggedOutOnly: true,
-    // thunk: async () => {}
   },
   [ROUTE_SIGNUP]: {
     path: '/signup',
     loggedOutOnly: true,
-    // thunk: async () => {}
   },
   [ROUTE_REDUX_DEMO]: {
     path: '/redux-demo',
-    // thunk: async () => {}
   },
   [ROUTE_USERS]: {
     path: '/users',
     loggedInOnly: true,
-    thunk: async (dispatch /* , getState */) => {
+    thunk: async (dispatch) => {
       dispatch({ type: LOAD_USERS_REQUESTED });
     },
   },
@@ -67,7 +63,7 @@ const routesMap = {
   [ROUTE_ADMIN_USERS]: {
     path: '/admin/users',
     requireRoles: [ 'admin' ],
-    thunk: async (dispatch /* , getState */) => {
+    thunk: async (dispatch) => {
       dispatch({ type: LOAD_USERS_REQUESTED });
     },
   },
