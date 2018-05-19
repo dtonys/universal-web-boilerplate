@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
 
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import {
   extractUsersState,
 } from 'redux/user/reducer';
@@ -34,7 +36,7 @@ class UsersList extends Component {
         }
         { users &&
           <div>
-            <Typography type="title" gutterBottom>
+            <Typography variant="title" gutterBottom>
               Users List
             </Typography>
             <Divider />

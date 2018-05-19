@@ -1,10 +1,10 @@
 import React from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 
 
 const NotFoundPage = () => {
   return (
-    <Typography align="center" type="display2" color="primary" gutterBottom >
+    <Typography align="center" variant="display2" color="primary" gutterBottom >
       Page Not Found
     </Typography>
   );

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from 'pages/ReduxDemo/ReduxDemo.scss';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
-import Grid from 'material-ui/Grid';
-import { CircularProgress } from 'material-ui/Progress';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 import {
   INCREMENT_COUNTER,
@@ -25,23 +25,23 @@ const CounterView = ({
 }) => {
   return (
     <Paper className={styles.column} >
-      <Typography type="headline" color="primary" gutterBottom >
+      <Typography variant="headline" color="primary" gutterBottom >
         Count: {count}
       </Typography>
       <span style={{ marginRight: 10, marginBottom: 10 }} ></span>
-      <Button raised onClick={_inc} >
+      <Button variant="raised" onClick={_inc} >
         Inc
       </Button>
       <span style={{ marginRight: 10, marginBottom: 10 }} ></span>
-      <Button raised onClick={_dec} >
+      <Button variant="raised" onClick={_dec} >
         Dec
       </Button>
       <span style={{ marginRight: 10, marginBottom: 10 }} ></span>
-      <Button raised onClick={_incAsync} >
+      <Button variant="raised" onClick={_incAsync} >
         Inc Async
       </Button>
       <span style={{ marginRight: 10, marginBottom: 10 }} ></span>
-      <Button raised onClick={_decAsync} >
+      <Button variant="raised" onClick={_decAsync} >
         Dec Async
       </Button>
     </Paper>
@@ -63,7 +63,7 @@ const LoadDataView = ({
 }) => {
   return (
     <Paper className={styles.column}>
-      <Button raised onClick={loadData} >
+      <Button variant="raised" onClick={loadData} >
         Load Data
       </Button>
       <div style={{ marginBottom: 10 }} ></div>
@@ -130,10 +130,10 @@ class ReduxDemo extends Component {
 
     return (
       <div className={ styles.wrap } >
-        <Typography type="display2" color="primary" gutterBottom >
+        <Typography variant="display2" color="primary" gutterBottom >
           Redux Demo Page
         </Typography>
-        <Typography type="display1" color="primary" gutterBottom >
+        <Typography variant="display1" color="primary" gutterBottom >
           Click the buttons below to change the state
         </Typography>
         <br />

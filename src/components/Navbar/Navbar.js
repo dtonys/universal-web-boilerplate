@@ -9,10 +9,10 @@ import {
 } from 'redux/user/actions';
 
 import styles from 'components/Navbar/Navbar.scss';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 
 @connect(
@@ -43,7 +43,7 @@ class Navbar extends Component {
         <AppBar position="fixed" >
           <Toolbar className={styles.toolBar} >
             <Typography
-              type="title"
+              variant="title"
               color="inherit"
               className={styles.middleContent}
             >
@@ -58,16 +58,16 @@ class Navbar extends Component {
               </Link>
             </Typography>
             <Link to="/admin/users">
-              <Button color="contrast">Admin</Button>
+              <Button color="secondary">Admin</Button>
             </Link>
             <Link to="/users">
-              <Button color="contrast">Users</Button>
+              <Button color="secondary">Users</Button>
             </Link>
             { user &&
               <div>
-                <Button color="contrast" onClick={this.logout} >Logout</Button>
+                <Button color="secondary" onClick={this.logout} >Logout</Button>
                 <Typography
-                  type="subheading"
+                  variant="subheading"
                   color="inherit"
                   style={{ display: 'inline-flex' }}
                 >
@@ -78,10 +78,10 @@ class Navbar extends Component {
             { !user &&
               <div>
                 <Link to="/login">
-                  <Button color="contrast">Login</Button>
+                  <Button color="secondary">Login</Button>
                 </Link>
                 <Link to="/signup">
-                  <Button color="contrast">Signup</Button>
+                  <Button color="secondary">Signup</Button>
                 </Link>
               </div>
             }

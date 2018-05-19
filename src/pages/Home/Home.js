@@ -5,8 +5,8 @@ import Link from 'redux-first-router-link';
 import { extractUserState } from 'redux/user/reducer';
 
 import styles from 'pages/Home/Home.scss';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 @connect(
   ( globalState ) => ({
@@ -26,10 +26,10 @@ class HomePage extends Component { // eslint-disable-line react/prefer-stateless
 
     return (
       <div className={ styles.wrap } >
-        <Typography type="display2" color="primary" gutterBottom >
+        <Typography variant="display2" color="primary" gutterBottom >
           ⚫ Universal web boilerplate
         </Typography>
-        <Typography type="display1" color="primary" gutterBottom >
+        <Typography variant="display1" color="primary" gutterBottom >
           { user &&
             `You are logged in as ${user.email}.`
           }
@@ -41,7 +41,7 @@ class HomePage extends Component { // eslint-disable-line react/prefer-stateless
         </Typography>
         <br />
         <Link to="/redux-demo" >
-          <Button raised >
+          <Button variant="raised" >
             Redux Demo
           </Button>
         </Link>

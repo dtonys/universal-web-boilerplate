@@ -19,6 +19,7 @@
     "lint-js": "eslint -c .eslintrc.js ./src"
   },
   "dependencies": {
+    "@material-ui/core": "^1.0.0",
     "autodll-webpack-plugin": "^0.3.8",
     "autoprefixer": "^7.2.4",
     "babel-cli": "^6.26.0",
@@ -62,8 +63,6 @@
     "jest-enzyme": "^4.0.2",
     "jest-fetch-mock": "^1.4.1",
     "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.29",
-    "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.9.0",
     "node-sass": "^4.7.2",
     "nodemon": "^1.14.11",

@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContainer from 'react-hot-loader/lib/AppContainer';
 import App from 'components/App/App';
-import Reboot from 'material-ui/Reboot';
-import { MuiThemeProvider } from 'material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import createTheme from 'helpers/createTheme';
 import configureStore from 'redux/configureStore';
 import { Provider as ReduxStoreProvider } from 'react-redux';
@@ -26,7 +26,7 @@ function render( App ) { // eslint-disable-line no-shadow
   const root = document.getElementById('root');
   ReactDOM.hydrate(
     <MuiThemeProvider theme={theme}>
-      <Reboot />
+      <CssBaseline />
       <AppContainer warnings={false}>
         <ReduxStoreProvider store={store} >
           <App />

@@ -6,9 +6,9 @@ import {
   extractUsersState,
 } from 'redux/user/reducer';
 import { ROUTE_USER_DETAIL_TAB } from 'redux/routesMap';
-import Typography from 'material-ui/Typography';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import Paper from 'material-ui/Paper';
+import Typography from '@material-ui/core/Typography';
+import Tabs, { Tab } from '@material-ui/core/Tabs';
+import Paper from '@material-ui/core/Paper';
 import Loading from 'components/Loading/Loading';
 
 
@@ -57,7 +57,7 @@ class UserDetail extends Component {
         }
         { users &&
           <div>
-            <Typography type="title" gutterBottom>
+            <Typography variant="title" gutterBottom>
               User Detail
             </Typography>
             <br />

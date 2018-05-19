@@ -5,8 +5,8 @@ import { Form, Field } from 'react-final-form';
 
 import styles from 'pages/Signup/Signup.scss';
 import TextInput from 'components/TextInput/TextInput';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import {
   required as isRequired,
@@ -53,7 +53,7 @@ class SignupPage extends Component {
               autoComplete="off"
               data-test="signupForm"
             >
-              <Typography type="headline" align="center" gutterBottom >
+              <Typography variant="headline" align="center" gutterBottom >
                 Sign up
               </Typography>
               { error &&
@@ -61,7 +61,7 @@ class SignupPage extends Component {
                   <br />
                   <Typography
                     color="error"
-                    type="subheading"
+                    variant="subheading"
                     align="center"
                     gutterBottom
                     data-test="serverError"
@@ -90,7 +90,7 @@ class SignupPage extends Component {
               />
               <br /><br /><br />
               <Button
-                raised
+                variant="raised"
                 color="primary"
                 fullWidth
                 type="submit"

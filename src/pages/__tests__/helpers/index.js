@@ -4,8 +4,8 @@ import createMemoryHistory from 'history/createMemoryHistory';
 import configureStore from 'redux/configureStore';
 import createTheme from 'helpers/createTheme';
 import makeRequest from 'helpers/request';
-import { MuiThemeProvider } from 'material-ui/styles';
-import Reboot from 'material-ui/Reboot';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 import PageLayout from 'components/PageLayout/PageLayout';
 
@@ -22,7 +22,7 @@ export function wrapWithProviders( Component, initialState ) {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Reboot />
+      <CssBaseline />
       <ReduxStoreProvider store={store} >
         { Component }
       </ReduxStoreProvider>

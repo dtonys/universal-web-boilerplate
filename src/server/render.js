@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom/server';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 
-import { MuiThemeProvider, createGenerateClassName } from 'material-ui/styles';
-import Reboot from 'material-ui/Reboot';
+import { MuiThemeProvider, createGenerateClassName } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import createTheme from 'helpers/createTheme';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss';
@@ -62,7 +62,7 @@ function renderApp( sheetsRegistry, store ) {
   const appRoot = (
     <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
       <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-        <Reboot />
+        <CssBaseline />
         <ReduxStoreProvider store={store} >
           <App />
         </ReduxStoreProvider>
