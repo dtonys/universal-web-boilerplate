@@ -42,7 +42,7 @@ describe('Login page', () => {
           .contains('Email not found')
       ).toBe(true);
       done();
-    }, 1);
+    }, 100);
   });
 
 });

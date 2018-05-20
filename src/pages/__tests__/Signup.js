@@ -42,7 +42,7 @@ describe('Signup page', () => {
           .contains('User email already in use')
       ).toBe(true);
       done();
-    }, 1);
+    }, 100);
 
   });
 
