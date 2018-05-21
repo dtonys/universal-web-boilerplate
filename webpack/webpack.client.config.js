@@ -23,7 +23,6 @@ const PATHS = {
   clientEntry: path.resolve(__dirname, '..', 'src', 'client.js'),
   clientBuild: path.resolve(__dirname, '..', 'build', 'client'),
   node_modules: path.resolve(__dirname, '..', 'node_modules'),
-  webpackCache: path.resolve(__dirname, 'clientCache'),
 };
 
 const commonConfig = webpackMerge([
@@ -102,7 +101,7 @@ const developmentConfig = webpackMerge([
   },
   parts.loadJavascript({
     include: PATHS.src,
-    cacheDirectory: PATHS.webpackCache,
+    cacheDirectory: false,
   }),
   parts.commonsChunk([
     {
@@ -170,7 +169,6 @@ const productionConfig = webpackMerge([
       minChunks: Infinity,
     },
   ]),
-  parts.attachRevision(),
   parts.loadImages({
     options: {
       limit: 15000,

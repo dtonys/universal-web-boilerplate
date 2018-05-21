@@ -24,7 +24,6 @@ const PATHS = {
   serverEntry: path.resolve(__dirname, '..', 'src', 'server', 'render.js'),
   serverBuild: path.resolve(__dirname, '..', 'build', 'server'),
   node_modules: path.resolve(__dirname, '..', 'node_modules'),
-  webpackCache: path.resolve(__dirname, 'serverCache'),
 };
 
 // if you're specifying externals to leave unbundled, you need to tell Webpack
@@ -78,7 +77,7 @@ const commonConfig = webpackMerge([
   },
   parts.loadJavascript({
     include: PATHS.src,
-    cacheDirectory: PATHS.webpackCache,
+    cacheDirectory: false,
   }),
   parts.serverRenderSCSS({
     cssModules: true,

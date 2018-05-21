@@ -10,7 +10,6 @@ const webpack = require('webpack');
 const cssnano = require('cssnano');
 
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 
@@ -175,14 +174,6 @@ exports.loadFonts = ({ include, exclude, options } = {}) => ({
       },
     ],
   },
-});
-
-exports.attachRevision = () => ({
-  plugins: [
-    new webpack.BannerPlugin({
-      banner: new GitRevisionPlugin().version(),
-    }),
-  ],
 });
 
 exports.loadImages = ({ include, exclude, options } = {}) => ({

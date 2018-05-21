@@ -137,7 +137,7 @@ class ReduxDemo extends Component {
           Click the buttons below to change the state
         </Typography>
         <br />
-        <Grid container>
+        <Grid container spacing={16}>
           <Grid item xs>
             <CounterView
               _inc={this._inc}
