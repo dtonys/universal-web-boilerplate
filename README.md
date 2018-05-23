@@ -17,7 +17,7 @@ However these frameworks and tools take control away from the developer, and mak
 Universal web boilerplate provides an opinionated yet solid foundation you need to get started, without abstracting any of the implementation details away.
 
 ## Updates
-**5/21/2018** - Updated all npm dependencies to latest version.
+**5/21/2018** - Updated all non webpack 4 related dependencies to latest version.
 
 ## Featuring
 
