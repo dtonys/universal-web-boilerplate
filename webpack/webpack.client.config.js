@@ -13,8 +13,9 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const WriteFilePlugin = require('write-file-webpack-plugin');
-const AutoDllPlugin = require('autodll-webpack-plugin');
+// const AutoDllPlugin = require('autodll-webpack4-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
+const TimeFixPlugin = require('time-fix-plugin');
 const parts = require('./webpack.parts');
 
 
@@ -29,6 +30,7 @@ const commonConfig = webpackMerge([
   {
     // 'client' name required by webpack-hot-server-middleware, see
     // https://github.com/60frames/webpack-hot-server-middleware#usage
+    mode: 'none',
     name: 'client',
     target: 'web',
     bail: true,
@@ -43,9 +45,9 @@ const commonConfig = webpackMerge([
       ],
     },
   },
-  parts.extractSCSS({
-    cssModules: true,
-  }),
+  // parts.extractSCSS({
+  //   cssModules: true,
+  // }),
   parts.loadFonts({
     options: {
       name: '[name].[hash:8].[ext]',
@@ -67,8 +69,28 @@ const developmentConfig = webpackMerge([
       filename: '[name].js',
       chunkFilename: '[name].js',
     },
+    module: {
+      rules: [
+        // scss, for loading and processing local scope css,
+        {
+          test: /\.scss/,
+          use: [
+            { loader: 'style-loader' },
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
+            },
+            { loader: 'fast-sass-loader' },
+          ],
+        },
+      ],
+    },
     plugins: [
       new WriteFilePlugin(),
+      new TimeFixPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
@@ -80,36 +102,29 @@ const developmentConfig = webpackMerge([
         __TEST__: 'false',
       }),
       new webpack.NamedModulesPlugin(),
-      new AutoDllPlugin({
-        context: path.join(__dirname, '..'),
-        filename: '[name].js',
-        entry: {
-          vendor: [
-            'react',
-            'react-dom',
-            'react-redux',
-            'redux',
-            'history/createBrowserHistory',
-            'redux-first-router',
-            'redux-first-router-link',
-            'fetch-everywhere',
-            'babel-polyfill',
-          ],
-        },
-      }),
+      // new AutoDllPlugin({
+      //   context: path.join(__dirname, '..'),
+      //   filename: '[name].js',
+      //   entry: {
+      //     vendor: [
+      //       'react',
+      //       'react-dom',
+      //       'react-redux',
+      //       'redux',
+      //       'history/createBrowserHistory',
+      //       'redux-first-router',
+      //       'redux-first-router-link',
+      //       'fetch-everywhere',
+      //       'babel-polyfill',
+      //     ],
+      //   },
+      // }),
     ],
   },
   parts.loadJavascript({
     include: PATHS.src,
     cacheDirectory: false,
   }),
-  parts.commonsChunk([
-    {
-      names: [ 'bootstrap' ], // needed to put webpack bootstrap code before chunks
-      filename: '[name].js',
-      minChunks: Infinity,
-    },
-  ]),
   parts.loadImages(),
 ]);
 
@@ -154,21 +169,6 @@ const productionConfig = webpackMerge([
       },
     },
   }),
-  parts.commonsChunk([
-    {
-      name: 'vendor',
-      minChunks: ({ resource }) => (
-        resource &&
-        resource.indexOf('node_modules') >= 0 &&
-        resource.match(/\.js$/)
-      ),
-    },
-    {
-      names: [ 'bootstrap' ], // needed to put webpack bootstrap code before chunks
-      filename: '[name].js',
-      minChunks: Infinity,
-    },
-  ]),
   parts.loadImages({
     options: {
       limit: 15000,

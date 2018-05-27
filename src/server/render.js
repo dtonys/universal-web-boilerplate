@@ -49,7 +49,6 @@ function createHtml({
       <body>
         <div id="root">${appString}</div>
         ${cssHash}
-        ${dllScript}
         ${js}
       </body>
     </html>

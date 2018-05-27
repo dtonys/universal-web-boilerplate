@@ -88,6 +88,7 @@ const commonConfig = webpackMerge([
 const developmentConfig = webpackMerge([
   {
     devtool: 'eval',
+    mode: 'none',
     output: {
       publicPath: '/static/',
     },
