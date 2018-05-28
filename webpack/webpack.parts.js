@@ -7,10 +7,8 @@
  */
 
 const webpack = require('webpack');
-const cssnano = require('cssnano');
-
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
 exports.loadJavascript = ({ include, exclude, cacheDirectory } = {}) => ({
@@ -36,35 +34,6 @@ exports.loadJavascript = ({ include, exclude, cacheDirectory } = {}) => ({
       },
     ],
   },
-});
-
-exports.minifyJavaScript = () => ({
-  plugins: [
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //     // Disabled because of an issue with Uglify breaking seemingly valid code:
-    //     // https://github.com/facebookincubator/create-react-app/issues/2376
-    //     // Pending further investigation:
-    //     // https://github.com/mishoo/UglifyJS2/issues/2011
-    //     comparisons: false,
-    //   },
-    //   output: {
-    //     comments: false,
-    //   },
-    //   sourceMap: true,
-    // }),
-  ],
-});
-
-exports.minifyCSS = ({ options } = {}) => ({
-  plugins: [
-    new OptimizeCSSAssetsPlugin({
-      cssProcessor: cssnano,
-      cssProcessorOptions: options,
-      canPrint: false,
-    }),
-  ],
 });
 
 exports.serverRenderSCSS = ({ include, exclude, cssModules } = {}) => ({
@@ -114,48 +83,46 @@ exports.extractSCSS = ({ include, exclude, cssModules } = {}) => ({
         test: /\.scss$/,
         include,
         exclude,
-        use: ExtractCssChunks.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: cssModules,
-                localIdentName: '[name]__[local]--[hash:base64:5]',
-              },
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: cssModules,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => ([
-                  require('autoprefixer')({
-                    browsers: [
-                      '>1%',
-                      'last 4 versions',
-                      'Firefox ESR',
-                      'not ie < 9', // React doesn't support IE8 anyway
-                    ],
-                    flexbox: 'no-2009',
-                  }),
-                ]),
-              },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => ([
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ]),
             },
-            {
-              loader: 'fast-sass-loader',
-            },
-          ],
-        }),
+          },
+          {
+            loader: 'fast-sass-loader',
+          },
+        ],
       },
     ],
   },
   plugins: [
-    new ExtractCssChunks(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[chunkhash].css',
+      chunkFilename: '[name].[chunkhash].css',
+    }),
   ],
-});
-
-exports.commonsChunk = (bundles) => ({
-  plugins: bundles.map((bundle) => (
-    new webpack.optimize.CommonsChunkPlugin(bundle)
-  )),
 });
 
 exports.loadFonts = ({ include, exclude, options } = {}) => ({

@@ -12,10 +12,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const cssnano = require('cssnano');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 // const AutoDllPlugin = require('autodll-webpack4-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
 const TimeFixPlugin = require('time-fix-plugin');
+const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const parts = require('./webpack.parts');
 
 
@@ -28,15 +31,22 @@ const PATHS = {
 
 const commonConfig = webpackMerge([
   {
+    // Avoid `mode` option, let's explicitely opt in to all webpack features
+    mode: 'none',
     // 'client' name required by webpack-hot-server-middleware, see
     // https://github.com/60frames/webpack-hot-server-middleware#usage
-    mode: 'none',
     name: 'client',
     target: 'web',
     bail: true,
     output: {
       path: PATHS.clientBuild,
       publicPath: '/static/',
+    },
+    optimization: {
+      removeAvailableModules: true,
+      removeEmptyChunks: true,
+      mergeDuplicateChunks: true,
+      providedExports: true,
     },
     resolve: {
       modules: [
@@ -45,9 +55,6 @@ const commonConfig = webpackMerge([
       ],
     },
   },
-  // parts.extractSCSS({
-  //   cssModules: true,
-  // }),
   parts.loadFonts({
     options: {
       name: '[name].[hash:8].[ext]',
@@ -57,7 +64,9 @@ const commonConfig = webpackMerge([
 
 const developmentConfig = webpackMerge([
   {
+    cache: true,
     devtool: 'eval',
+    // mode: 'development',
     entry: [
       'babel-polyfill',
       'fetch-everywhere',
@@ -68,6 +77,17 @@ const developmentConfig = webpackMerge([
     output: {
       filename: '[name].js',
       chunkFilename: '[name].js',
+      pathinfo: true,
+    },
+    optimization: {
+      namedModules: true,
+      namedChunks: true,
+      // Changing to 'all' would require more script tags in our base html
+      splitChunks: {
+        chunks: 'async',
+      },
+      // Adding another runtime chunk would require more script tags in our base html
+      runtimeChunk: false,
     },
     module: {
       rules: [
@@ -92,7 +112,6 @@ const developmentConfig = webpackMerge([
       new WriteFilePlugin(),
       new TimeFixPlugin(),
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
@@ -140,6 +159,27 @@ const productionConfig = webpackMerge([
       filename: '[name].[chunkhash].js',
       chunkFilename: '[name].[chunkhash].js',
     },
+    optimization: {
+      flagIncludedChunks: true,
+      occurrenceOrder: true,
+      usedExports: true,
+      sideEffects: true,
+      concatenateModules: true,
+      noEmitOnErrors: true,
+      minimizer: [
+        new UglifyWebpackPlugin({
+          sourceMap: true,
+        }),
+      ],
+      splitChunks: {
+        chunks: 'async',
+      },
+      // Adding another runtime chunk would require more script tags in our base html
+      runtimeChunk: false,
+    },
+    performance: {
+      hints: 'warning',
+    },
     plugins: [
       new StatsPlugin('stats.json'),
       new webpack.DefinePlugin({
@@ -151,23 +191,26 @@ const productionConfig = webpackMerge([
         __TEST__: 'false',
       }),
       new webpack.HashedModuleIdsPlugin(),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessor: cssnano,
+        cssProcessorOptions: {
+          discardComments: {
+            removeAll: true,
+            // Run cssnano in safe mode to avoid potentially unsafe transformations.
+            safe: true,
+          },
+        },
+        canPrint: false,
+      }),
     ],
     recordsPath: path.join(__dirname, 'records.json' ),
   },
+  parts.extractSCSS({
+    cssModules: true,
+  }),
   parts.loadJavascript({
     include: PATHS.src,
     cacheDirectory: false,
-  }),
-  parts.minifyJavaScript(),
-  parts.minifyCSS({
-    options: {
-      discardComments: {
-        removeAll: true,
-        // Run cssnano in safe mode to avoid
-        // potentially unsafe transformations.
-        safe: true,
-      },
-    },
   }),
   parts.loadImages({
     options: {

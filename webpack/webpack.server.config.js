@@ -51,6 +51,7 @@ const commonConfig = webpackMerge([
     // https://github.com/60frames/webpack-hot-server-middleware#usage
     name: 'server',
     target: 'node',
+    mode: 'none',
     bail: true,
     entry: [
       'babel-polyfill',
@@ -88,11 +89,11 @@ const commonConfig = webpackMerge([
 const developmentConfig = webpackMerge([
   {
     devtool: 'eval',
-    mode: 'none',
     output: {
       publicPath: '/static/',
     },
     plugins: [
+      new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify('development'),

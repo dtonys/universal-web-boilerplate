@@ -73,7 +73,6 @@ function renderApp( sheetsRegistry, store ) {
 
 function createServerRenderMiddleware({ clientStats }) {
   return async (req, res, next) => {
-    let appString = null;
     const sheetsRegistry = new SheetsRegistry();
     const request = makeRequest(req);
     const history = createMemoryHistory({ initialEntries: [ req.originalUrl ] });
@@ -121,6 +120,7 @@ function createServerRenderMiddleware({ clientStats }) {
     store.dispatch(REDUX_SAGA_END);
     await rootSagaTask.done;
 
+    let appString = null;
     try {
       const appInstance = renderApp(sheetsRegistry, store);
       appString = ReactDOM.renderToString( appInstance );
