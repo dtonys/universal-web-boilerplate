@@ -17,18 +17,20 @@ exports.loadJavascript = ({ include, exclude, cacheDirectory } = {}) => ({
         include,
         exclude,
 
-        use: {
-          loader: 'babel-loader',
-          options: {
-            babelrc: true,
-            // Enable caching for improved performance during
-            // development.
-            // It uses default OS directory by default. If you need
-            // something more custom, pass a path to it.
-            // I.e., { cacheDirectory: '<path>' }
-            cacheDirectory,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: true,
+              // Enable caching for improved performance during
+              // development.
+              // It uses default OS directory by default. If you need
+              // something more custom, pass a path to it.
+              // I.e., { cacheDirectory: '<path>' }
+              cacheDirectory,
+            },
           },
-        },
+        ],
       },
     ],
   },
@@ -206,10 +208,12 @@ exports.loadFonts = ({ include, exclude, options } = {}) => ({
         include,
         exclude,
 
-        use: {
-          loader: 'file-loader',
-          options,
-        },
+        use: [
+          {
+            loader: 'file-loader',
+            options,
+          },
+        ],
       },
     ],
   },
@@ -223,10 +227,12 @@ exports.loadImages = ({ include, exclude, options } = {}) => ({
         include,
         exclude,
 
-        use: {
-          loader: 'url-loader',
-          options,
-        },
+        use: [
+          {
+            loader: 'url-loader',
+            options,
+          },
+        ],
       },
     ],
   },

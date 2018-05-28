@@ -71,11 +71,11 @@ const commonConfig = webpackMerge([
       ],
     },
   },
-  parts.loadFonts({
-    options: {
-      name: '[name].[hash:8].[ext]',
-    },
-  }),
+  // parts.loadFonts({
+  //   options: {
+  //     name: '[name].[hash:8].[ext]',
+  //   },
+  // }),
 ]);
 
 const developmentConfig = webpackMerge([
@@ -111,7 +111,7 @@ const developmentConfig = webpackMerge([
       }),
     ],
   },
-  parts.loadStyles(),
+  parts.extractCSSChunks(),
   parts.loadJavascript({
     include: PATHS.src,
     cacheDirectory: false,

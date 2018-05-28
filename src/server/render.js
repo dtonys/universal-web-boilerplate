@@ -136,7 +136,12 @@ function createServerRenderMiddleware({ clientStats }) {
     const muiCss = sheetsRegistry.toString();
     const chunkNames = flushChunkNames();
     const flushed = flushChunks(clientStats, { chunkNames });
+    console.log('flushed');
+    console.log(flushed);
     const { js, styles, cssHash } = flushed;
+    console.log(js.toString());
+    console.log(styles.toString());
+    console.log(cssHash.toString());
 
     const htmlString = createHtml({
       js,
