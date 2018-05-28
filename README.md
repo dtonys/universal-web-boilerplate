@@ -16,14 +16,6 @@ However these frameworks and tools take control away from the developer, and mak
 
 Universal web boilerplate provides an opinionated yet solid foundation you need to get started, without abstracting any of the implementation details away.
 
-## Updates
-**5/21/2018**
-  - Updated all non webpack 4 related dependencies to latest version.
-
-**5/28/2018**
-  - Updated to webpack 4 + all webpack 4 dependencies.
-  - Removed a few optimization related features: autodll-webpack-plugin, babel cache
-
 ## Featuring
 
 
@@ -132,3 +124,17 @@ This boilerplate was created with inspiration from the following resources:
 - egghead-universal-component - https://github.com/timkindberg/egghead-universal-component
 - create-react-app - https://github.com/facebook/create-react-app
 
+## Updates
+
+This boilerplate is periodically updated to keep up with the latest tools and best practices.
+
+**5/21/2018 - Updates**
+  - Updated all non webpack 4 related dependencies to latest version.
+
+**5/28/2018 - Webpack 4 Update**
+  - Updated to webpack 4 + all webpack 4 dependencies.
+  - Removed a few optimization related features: autodll-webpack-plugin, babel cache
+
+**TODO( Performance: Incremental rebuild & Total build time )**
+
+**TODO( Updates: Update to latest universal stack )**
