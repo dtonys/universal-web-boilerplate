@@ -24,19 +24,6 @@ function setupWebackDevMiddleware(app) {
   const serverConfig = serverConfigFactory('development');
   const multiCompiler = webpack([ clientConfig, serverConfig ]);
 
-  // HACK: Fix for repeated recompiles in dev mode
-  // https://github.com/webpack/watchpack/issues/25#issuecomment-319292564
-  multiCompiler.compilers.forEach(( compiler ) => {
-    const timefix = 11000;
-    compiler.plugin('watch-run', (watching, callback) => {
-      watching.startTime += timefix;
-      callback();
-    });
-    compiler.plugin('done', (stats) => {
-      stats.startTime -= timefix;
-    });
-  });
-
   const clientCompiler = multiCompiler.compilers[0];
   app.use(webpackDevMiddleware(multiCompiler, {
     publicPath: clientConfig.output.publicPath,
@@ -45,7 +32,7 @@ function setupWebackDevMiddleware(app) {
   app.use(webpackHotServerMiddleware(multiCompiler));
 
   return new Promise((resolve /* ,reject */) => {
-    multiCompiler.plugin('done', resolve);
+    multiCompiler.hooks.done.tap('done', resolve);
   });
 }
 
