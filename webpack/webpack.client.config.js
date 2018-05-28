@@ -172,7 +172,7 @@ const productionConfig = webpackMerge([
     ],
     recordsPath: path.join(__dirname, 'records.json' ),
   },
-  parts.extractCSS({
+  parts.extractCSSChunks({
     cssModules: true,
   }),
   parts.loadJavascript({

@@ -6,6 +6,7 @@
  *
  */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 
 exports.loadJavascript = ({ include, exclude, cacheDirectory } = {}) => ({
@@ -96,6 +97,55 @@ exports.loadStyles = ({ include, exclude, cssModules } = {}) => ({
       },
     ],
   },
+});
+
+exports.extractCSSChunks = ({ include, exclude, cssModules } = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        include,
+        exclude,
+        use: [
+          {
+            loader: ExtractCssChunks.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: cssModules,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => ([
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ]),
+            },
+          },
+          {
+            loader: 'fast-sass-loader',
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new ExtractCssChunks({
+      filename: '[name].[chunkhash].css',
+      chunkFilename: '[name].[chunkhash].css',
+    }),
+  ],
 });
 
 exports.extractCSS = ({ include, exclude, cssModules } = {}) => ({
