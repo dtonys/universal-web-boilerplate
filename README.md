@@ -17,7 +17,12 @@ However these frameworks and tools take control away from the developer, and mak
 Universal web boilerplate provides an opinionated yet solid foundation you need to get started, without abstracting any of the implementation details away.
 
 ## Updates
-**5/21/2018** - Updated all non webpack 4 related dependencies to latest version.
+**5/21/2018**
+  - Updated all non webpack 4 related dependencies to latest version.
+
+**5/28/2018**
+  - Updated to webpack 4 + all webpack 4 dependencies.
+  - Removed a few optimization related features: autodll-webpack-plugin, babel cache
 
 ## Featuring
 
@@ -30,7 +35,6 @@ Universal web boilerplate provides an opinionated yet solid foundation you need 
 #### Rapid developer workflow
   - Hot module replacement reloads the source code on both server and client on change
   - Changes to the web server picked up and reloaded with nodemon
-  - `autodll-webpack-plugin` prevents large vendor libraries from being reloaded in development mode
 
 #### Production ready
   - CSS and Javascipt minified in production
