@@ -80,7 +80,7 @@ const commonConfig = webpackMerge([
     include: PATHS.src,
     cacheDirectory: false,
   }),
-  parts.serverRenderSCSS({
+  parts.serverRenderCSS({
     cssModules: true,
     exclude: /node_modules/,
   }),

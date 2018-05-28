@@ -5,9 +5,6 @@
  * https://github.com/survivejs-demos/webpack-demo
  *
  */
-
-const webpack = require('webpack');
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
@@ -36,7 +33,7 @@ exports.loadJavascript = ({ include, exclude, cacheDirectory } = {}) => ({
   },
 });
 
-exports.serverRenderSCSS = ({ include, exclude, cssModules } = {}) => ({
+exports.serverRenderCSS = ({ include, exclude, cssModules } = {}) => ({
   module: {
     rules: [
       {
@@ -76,7 +73,32 @@ exports.serverRenderSCSS = ({ include, exclude, cssModules } = {}) => ({
   },
 });
 
-exports.extractSCSS = ({ include, exclude, cssModules } = {}) => ({
+exports.loadStyles = ({ include, exclude, cssModules } = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
+            },
+          },
+          {
+            loader: 'fast-sass-loader',
+          },
+        ],
+      },
+    ],
+  },
+});
+
+exports.extractCSS = ({ include, exclude, cssModules } = {}) => ({
   module: {
     rules: [
       {

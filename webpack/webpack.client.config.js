@@ -31,7 +31,8 @@ const PATHS = {
 
 const commonConfig = webpackMerge([
   {
-    // Avoid `mode` option, let's explicitely opt in to all webpack features
+    // Avoid `mode` option, let's explicitly opt in to all of webpack's settings
+    // using the defaults that `mode` would set for development and production.
     mode: 'none',
     // 'client' name required by webpack-hot-server-middleware, see
     // https://github.com/60frames/webpack-hot-server-middleware#usage
@@ -47,6 +48,21 @@ const commonConfig = webpackMerge([
       removeEmptyChunks: true,
       mergeDuplicateChunks: true,
       providedExports: true,
+      // This config mimics the behavior of webpack 3 w/universal
+      splitChunks: {
+        chunks: 'initial',
+        cacheGroups: {
+          default: false,
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+          },
+        },
+      },
+      // This config mimics the behavior of webpack 3 w/universal
+      runtimeChunk: {
+        name: 'bootstrap',
+      },
     },
     resolve: {
       modules: [
@@ -65,8 +81,6 @@ const commonConfig = webpackMerge([
 const developmentConfig = webpackMerge([
   {
     cache: true,
-    devtool: 'eval',
-    // mode: 'development',
     entry: [
       'babel-polyfill',
       'fetch-everywhere',
@@ -82,31 +96,6 @@ const developmentConfig = webpackMerge([
     optimization: {
       namedModules: true,
       namedChunks: true,
-      // Changing to 'all' would require more script tags in our base html
-      splitChunks: {
-        chunks: 'async',
-      },
-      // Adding another runtime chunk would require more script tags in our base html
-      runtimeChunk: false,
-    },
-    module: {
-      rules: [
-        // scss, for loading and processing local scope css,
-        {
-          test: /\.scss/,
-          use: [
-            { loader: 'style-loader' },
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[name]__[local]--[hash:base64:5]',
-              },
-            },
-            { loader: 'fast-sass-loader' },
-          ],
-        },
-      ],
     },
     plugins: [
       new WriteFilePlugin(),
@@ -120,26 +109,9 @@ const developmentConfig = webpackMerge([
         __CLIENT__: 'true',
         __TEST__: 'false',
       }),
-      new webpack.NamedModulesPlugin(),
-      // new AutoDllPlugin({
-      //   context: path.join(__dirname, '..'),
-      //   filename: '[name].js',
-      //   entry: {
-      //     vendor: [
-      //       'react',
-      //       'react-dom',
-      //       'react-redux',
-      //       'redux',
-      //       'history/createBrowserHistory',
-      //       'redux-first-router',
-      //       'redux-first-router-link',
-      //       'fetch-everywhere',
-      //       'babel-polyfill',
-      //     ],
-      //   },
-      // }),
     ],
   },
+  parts.loadStyles(),
   parts.loadJavascript({
     include: PATHS.src,
     cacheDirectory: false,
@@ -171,11 +143,6 @@ const productionConfig = webpackMerge([
           sourceMap: true,
         }),
       ],
-      splitChunks: {
-        chunks: 'async',
-      },
-      // Adding another runtime chunk would require more script tags in our base html
-      runtimeChunk: false,
     },
     performance: {
       hints: 'warning',
@@ -205,7 +172,7 @@ const productionConfig = webpackMerge([
     ],
     recordsPath: path.join(__dirname, 'records.json' ),
   },
-  parts.extractSCSS({
+  parts.extractCSS({
     cssModules: true,
   }),
   parts.loadJavascript({
